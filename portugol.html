@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio de Tradução - Vetores e Matrizes | Java</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #11998e;
+            margin-bottom: 15px;
+            border-left: 5px solid #11998e;
+            padding-left: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card h3 {
+            color: #0d7a6b;
+            margin: 18px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .highlight {
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 12px 0;
+            font-size: 14px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .warning {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .question {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px 18px;
+            margin-bottom: 15px;
+            border-left: 4px solid #11998e;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .question-termo {
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            min-width: 120px;
+            font-family: 'Consolas', monospace;
+            background: #1e1e2e;
+            color: #c9d1d9;
+            padding: 5px 12px;
+            border-radius: 6px;
+        }
+
+        .question-exemplo {
+            font-size: 0.8rem;
+            color: #666;
+            font-style: italic;
+            min-width: 100px;
+        }
+
+        .question-select {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 14px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            background: #fafafa;
+            transition: border-color 0.3s;
+        }
+
+        .question-select:focus {
+            border-color: #11998e;
+            outline: none;
+            background: white;
+        }
+
+        .question-select.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .question-select.wrong {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(17,153,142,0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .result-box {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 3px solid #11998e;
+            display: none;
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .score {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feedback-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        .feedback-item.correct {
+            color: #28a745;
+        }
+
+        .feedback-item.wrong {
+            color: #dc3545;
+        }
+
+        .recompensas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .recompensa-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 2px solid #ddd;
+            transition: all 0.3s;
+        }
+
+        .recompensa-item.desbloqueado {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .recompensa-item .icone {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .recompensa-item .titulo {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .recompensa-item .descricao {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .btn-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .footer p {
+            color: #1a1a2e;
+        }
+
+        .form-box {
+            background: #e7f3ff;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #2196f3;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .form-box a {
+            color: #2196f3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form-box a:hover {
+            text-decoration: underline;
+        }
+
+        .icon-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #1a1a2e;
+        }
+
+        .delivery-box {
+            background: #d4edda;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #28a745;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .delivery-box code {
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .delivery-box .icon-text {
+            color: #155724;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-bar .fill {
+            height: 100%;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            border-radius: 10px;
+            transition: width 0.5s;
+            width: 0%;
+        }
+
+        hr {
+            margin: 15px 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .card { padding: 18px; }
+            .header h1 { font-size: 1.4rem; }
+            .question { flex-direction: column; align-items: stretch; }
+            .question-termo { text-align: center; }
+            .question-exemplo { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🌍 Desafio de Tradução</h1>
+        <p>Vetores e Matrizes em Java</p>
+        <div class="badge-group">
+            <span class="badge">📝 12 palavras</span>
+            <span class="badge">⏱️ ~10 minutos</span>
+            <span class="badge">🏆 Ganhe recompensas</span>
+        </div>
+    </div>
+
+    <!-- INTRODUÇÃO -->
+    <div class="card">
+        <h2>📖 Por que fazer este desafio?</h2>
+        <p>Palavras em inglês aparecem em <strong>todos os códigos</strong> que você escreve em Java.</p>
+        <p>Saber o significado de cada uma ajuda a <strong>entender melhor o código</strong> e a <strong>memorizar</strong> os comandos!</p>
+
+        <div class="highlight info">
+            💡 <strong>Exemplo:</strong> <code>array</code> significa <strong>"vetor"</strong> (conjunto de elementos).<br>
+            <code>length</code> significa <strong>"comprimento"</strong> (tamanho do vetor).<br>
+            <code>index</code> significa <strong>"índice"</strong> (posição do elemento).<br>
+            <code>matrix</code> significa <strong>"matriz"</strong> (tabela de dados).
+        </div>
+    </div>
+
+    <!-- PROGRESSO -->
+    <div class="card">
+        <h2>📊 Progresso</h2>
+        <div class="progress-bar">
+            <div class="fill" id="progresso"></div>
+        </div>
+        <p style="text-align: center;" id="texto-progresso">0 / 12 respondidas</p>
+    </div>
+
+    <!-- RECOMPENSAS -->
+    <div class="card">
+        <h2>🏆 Recompensas</h2>
+        <div class="recompensas">
+            <div class="recompensa-item" id="recompensa-1">
+                <div class="icone">⭐</div>
+                <div class="titulo">Iniciante</div>
+                <div class="descricao">Acertar 4 palavras</div>
+            </div>
+            <div class="recompensa-item" id="recompensa-2">
+                <div class="icone">🌟</div>
+                <div class="titulo">Intermediário</div>
+                <div class="descricao">Acertar 8 palavras</div>
+            </div>
+            <div class="recompensa-item" id="recompensa-3">
+                <div class="icone">👑</div>
+                <div class="titulo">Mestre dos Vetores</div>
+                <div class="descricao">Acertar todas as 12!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUESTÕES -->
+    <div class="card" id="testes">
+        <h2>✏️ Responda as questões</h2>
+        <p>Selecione o significado correto para cada palavra em inglês:</p>
+
+        <!-- Questão 1 -->
+        <div class="question">
+            <span class="question-termo">array</span>
+            <span class="question-exemplo">Ex: int[] numeros = new int[5];</span>
+            <select class="question-select" id="q1">
+                <option value="">Selecione...</option>
+                <option value="vetor">Vetor</option>
+                <option value="matriz">Matriz</option>
+                <option value="lista">Lista</option>
+                <option value="arquivo">Arquivo</option>
+            </select>
+        </div>
+
+        <!-- Questão 2 -->
+        <div class="question">
+            <span class="question-termo">length</span>
+            <span class="question-exemplo">Ex: numeros.length</span>
+            <select class="question-select" id="q2">
+                <option value="">Selecione...</option>
+                <option value="largura">Largura</option>
+                <option value="comprimento">Comprimento</option>
+                <option value="altura">Altura</option>
+                <option value="peso">Peso</option>
+            </select>
+        </div>
+
+        <!-- Questão 3 -->
+        <div class="question">
+            <span class="question-termo">index</span>
+            <span class="question-exemplo">Ex: numeros[0]</span>
+            <select class="question-select" id="q3">
+                <option value="">Selecione...</option>
+                <option value="valor">Valor</option>
+                <option value="índice">Índice</option>
+                <option value="tamanho">Tamanho</option>
+                <option value="tipo">Tipo</option>
+            </select>
+        </div>
+
+        <!-- Questão 4 -->
+        <div class="question">
+            <span class="question-termo">matrix</span>
+            <span class="question-exemplo">Ex: int[][] matriz = new int[3][3];</span>
+            <select class="question-select" id="q4">
+                <option value="">Selecione...</option>
+                <option value="vetor">Vetor</option>
+                <option value="lista">Lista</option>
+                <option value="matriz">Matriz</option>
+                <option value="arquivo">Arquivo</option>
+            </select>
+        </div>
+
+        <!-- Questão 5 -->
+        <div class="question">
+            <span class="question-termo">row</span>
+            <span class="question-exemplo">Ex: matriz[0] (linha 0)</span>
+            <select class="question-select" id="q5">
+                <option value="">Selecione...</option>
+                <option value="coluna">Coluna</option>
+                <option value="linha">Linha</option>
+                <option value="célula">Célula</option>
+                <option value="bloco">Bloco</option>
+            </select>
+        </div>
+
+        <!-- Questão 6 -->
+        <div class="question">
+            <span class="question-termo">column</span>
+            <span class="question-exemplo">Ex: matriz[0][1] (coluna 1)</span>
+            <select class="question-select" id="q6">
+                <option value="">Selecione...</option>
+                <option value="linha">Linha</option>
+                <option value="coluna">Coluna</option>
+                <option value="célula">Célula</option>
+                <option value="bloco">Bloco</option>
+            </select>
+        </div>
+
+        <!-- Questão 7 -->
+        <div class="question">
+            <span class="question-termo">element</span>
+            <span class="question-exemplo">Ex: cada valor dentro do vetor</span>
+            <select class="question-select" id="q7">
+                <option value="">Selecione...</option>
+                <option value="elemento">Elemento</option>
+                <option value="índice">Índice</option>
+                <option value="tamanho">Tamanho</option>
+                <option value="tipo">Tipo</option>
+            </select>
+        </div>
+
+        <!-- Questão 8 -->
+        <div class="question">
+            <span class="question-termo">for-each</span>
+            <span class="question-exemplo">Ex: for (int valor : numeros)</span>
+            <select class="question-select" id="q8">
+                <option value="">Selecione...</option>
+                <option value="para cada">Para cada</option>
+                <option value="para todos">Para todos</option>
+                <option value="enquanto">Enquanto</option>
+                <option value="se">Se</option>
+            </select>
+        </div>
+
+        <!-- Questão 9 -->
+        <div class="question">
+            <span class="question-termo">initialize</span>
+            <span class="question-exemplo">Ex: int[] numeros = {1, 2, 3};</span>
+            <select class="question-select" id="q9">
+                <option value="">Selecione...</option>
+                <option value="declarar">Declarar</option>
+                <option value="inicializar">Inicializar</option>
+                <option value="instanciar">Instanciar</option>
+                <option value="imprimir">Imprimir</option>
+            </select>
+        </div>
+
+        <!-- Questão 10 -->
+        <div class="question">
+            <span class="question-termo">declare</span>
+            <span class="question-exemplo">Ex: int[] numeros;</span>
+            <select class="question-select" id="q10">
+                <option value="">Selecione...</option>
+                <option value="declarar">Declarar</option>
+                <option value="inicializar">Inicializar</option>
+                <option value="instanciar">Instanciar</option>
+                <option value="imprimir">Imprimir</option>
+            </select>
+        </div>
+
+        <!-- Questão 11 -->
+        <div class="question">
+            <span class="question-termo">instantiate</span>
+            <span class="question-exemplo">Ex: new int[5];</span>
+            <select class="question-select" id="q11">
+                <option value="">Selecione...</option>
+                <option value="declarar">Declarar</option>
+                <option value="inicializar">Inicializar</option>
+                <option value="instanciar">Instanciar</option>
+                <option value="imprimir">Imprimir</option>
+            </select>
+        </div>
+
+        <!-- Questão 12 -->
+        <div class="question">
+            <span class="question-termo">traverse</span>
+            <span class="question-exemplo">Ex: percorrer um vetor com for</span>
+            <select class="question-select" id="q12">
+                <option value="">Selecione...</option>
+                <option value="percorrer">Percorrer</option>
+                <option value="pular">Pular</option>
+                <option value="parar">Parar</option>
+                <option value="repetir">Repetir</option>
+            </select>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn" onclick="corrigirTraducoes()">✅ Verificar Respostas</button>
+            <button class="btn btn-secondary" onclick="limparRespostas()">🔄 Limpar</button>
+        </div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div class="card result-box" id="resultado">
+        <h2>📊 Resultado do Desafio</h2>
+        <div class="score" id="pontuacao">0 / 12</div>
+        <p style="margin: 10px 0;">Acertos por palavra:</p>
+        <div id="feedback"></div>
+
+        <div style="margin-top: 20px;">
+            <button class="btn btn-success" onclick="window.print()">🖨️ Salvar como PDF (Print)</button>
+        </div>
+        <div class="highlight info" style="margin-top: 15px;">
+            📸 <strong>IMPORTANTE:</strong> Salve esta página como PDF (Ctrl+P → Salvar como PDF) para registrar seu progresso!
+        </div>
+    </div>
+
+    <!-- DICIONÁRIO -->
+    <div class="card">
+        <h2>📚 Dicionário - Vetores e Matrizes</h2>
+        <p>Consulte sempre que tiver dúvida sobre o significado de uma palavra:</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; margin-top: 15px;">
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>array</strong></code> → Vetor (coleção de elementos)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>length</strong></code> → Comprimento (tamanho do vetor)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>index</strong></code> → Índice (posição do elemento)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>matrix</strong></code> → Matriz (tabela de dados)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>row</strong></code> → Linha (na matriz)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>column</strong></code> → Coluna (na matriz)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>element</strong></code> → Elemento (cada valor do vetor/matriz)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>for-each</strong></code> → Para cada (loop simplificado)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>initialize</strong></code> → Inicializar (dar valores iniciais)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>declare</strong></code> → Declarar (criar a variável)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>instantiate</strong></code> → Instanciar (criar com new)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>traverse</strong></code> → Percorrer (visitar todos os elementos)
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER COM FORMULÁRIO -->
+    <div class="footer">
+        <div class="form-box">
+            <div class="icon-text">📋</div>
+            <strong style="color: #1a1a2e;">Formulário para entrega das atividades e relatório da aula:</strong><br>
+            <a href="https://forms.gle/zbUB57A4FteUDsKSA" target="_blank">https://forms.gle/zbUB57A4FteUDsKSA</a>
+        </div>
+
+        <div class="delivery-box">
+            <div class="icon-text">📤</div>
+            <strong style="color: #155724;">ENTREGA:</strong><br>
+            <span style="color: #155724;">Prints do <strong>código</strong> e <strong>resultado</strong> de cada desafio + link do repositório <code style="background: white; padding: 2px 8px; border-radius: 4px; color: #28a745;">java6</code></span>
+        </div>
+
+        <hr>
+
+        <p style="color: #1a1a2e;">📚 TEMA 06 - Vetores e Matrizes | Desafio de Tradução</p>
+        <p style="color: #1a1a2e;">🎯 Aprenda o significado das palavras em inglês usadas em vetores e matrizes!</p>
+    </div>
+</div>
+
+<button class="btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Topo</button>
+
+<script>
+    // GABARITO OFICIAL
+    const gabarito = {
+        q1: { resposta: "vetor", palavra: "array", traducao: "Vetor" },
+        q2: { resposta: "comprimento", palavra: "length", traducao: "Comprimento" },
+        q3: { resposta: "índice", palavra: "index", traducao: "Índice" },
+        q4: { resposta: "matriz", palavra: "matrix", traducao: "Matriz" },
+        q5: { resposta: "linha", palavra: "row", traducao: "Linha" },
+        q6: { resposta: "coluna", palavra: "column", traducao: "Coluna" },
+        q7: { resposta: "elemento", palavra: "element", traducao: "Elemento" },
+        q8: { resposta: "para cada", palavra: "for-each", traducao: "Para cada" },
+        q9: { resposta: "inicializar", palavra: "initialize", traducao: "Inicializar" },
+        q10: { resposta: "declarar", palavra: "declare", traducao: "Declarar" },
+        q11: { resposta: "instanciar", palavra: "instantiate", traducao: "Instanciar" },
+        q12: { resposta: "percorrer", palavra: "traverse", traducao: "Percorrer" }
+    };
+
+    function corrigirTraducoes() {
+        let acertos = 0;
+        let feedbackHTML = '';
+
+        for (let [id, gab] of Object.entries(gabarito)) {
+            const select = document.getElementById(id);
+            const respostaUsuario = select.value;
+
+            if (!respostaUsuario) {
+                select.style.borderColor = '#ffc107';
+                select.style.background = '#fff3cd';
+                feedbackHTML += `<div class="feedback-item wrong">❌ ${gab.palavra} → Não respondida</div>`;
+                continue;
+            }
+
+            const isCorrect = respostaUsuario === gab.resposta;
+
+            if (isCorrect) {
+                acertos++;
+                select.className = 'question-select correct';
+                feedbackHTML += `<div class="feedback-item correct">✅ ${gab.palavra} → ${gab.traducao}</div>`;
+            } else {
+                select.className = 'question-select wrong';
+                feedbackHTML += `<div class="feedback-item wrong">❌ ${gab.palavra} → Você respondeu "${select.options[select.selectedIndex].text}", correto é "${gab.traducao}"</div>`;
+            }
+        }
+
+        const total = Object.keys(gabarito).length;
+        document.getElementById('progresso').style.width = (acertos / total * 100) + '%';
+        document.getElementById('texto-progresso').textContent = acertos + ' / ' + total + ' respondidas';
+
+        document.getElementById('pontuacao').textContent = acertos + ' / ' + total;
+        document.getElementById('feedback').innerHTML = feedbackHTML;
+        document.getElementById('resultado').classList.add('show');
+
+        document.getElementById('resultado').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        atualizarRecompensas(acertos);
+
+        let mensagem = '';
+        if (acertos === total) {
+            mensagem = `
+                <div class="highlight success" style="margin-top: 15px; text-align: left;">
+                    👑 <strong>PARABÉNS! VOCÊ É UM MESTRE DOS VETORES!</strong><br>
+                    Você acertou todas as palavras! Agora você entende o significado de cada comando!
+                </div>
+            `;
+        } else if (acertos >= 8) {
+            mensagem = `
+                <div class="highlight tip" style="margin-top: 15px; text-align: left;">
+                    🌟 <strong>Bom trabalho!</strong> Você já conhece a maioria das palavras. Revise as que errou para fixar!
+                </div>
+            `;
+        } else if (acertos >= 4) {
+            mensagem = `
+                <div class="highlight info" style="margin-top: 15px; text-align: left;">
+                    ⭐ <strong>Continue praticando!</strong> Você já sabe algumas palavras. Consulte o dicionário para aprender as outras!
+                </div>
+            `;
+        } else {
+            mensagem = `
+                <div class="highlight warning" style="margin-top: 15px; text-align: left;">
+                    📚 <strong>Que tal estudar um pouco mais?</strong> Consulte o dicionário abaixo e tente novamente!
+                </div>
+            `;
+        }
+        document.getElementById('feedback').innerHTML += mensagem;
+    }
+
+    function atualizarRecompensas(acertos) {
+        const r1 = document.getElementById('recompensa-1');
+        const r2 = document.getElementById('recompensa-2');
+        const r3 = document.getElementById('recompensa-3');
+
+        if (acertos >= 4) {
+            r1.classList.add('desbloqueado');
+        } else {
+            r1.classList.remove('desbloqueado');
+        }
+
+        if (acertos >= 8) {
+            r2.classList.add('desbloqueado');
+        } else {
+            r2.classList.remove('desbloqueado');
+        }
+
+        if (acertos >= 12) {
+            r3.classList.add('desbloqueado');
+        } else {
+            r3.classList.remove('desbloqueado');
+        }
+    }
+
+    function limparRespostas() {
+        const selects = document.querySelectorAll('.question-select');
+        selects.forEach(select => {
+            select.value = '';
+            select.className = 'question-select';
+            select.style.borderColor = '';
+            select.style.background = '';
+        });
+
+        document.getElementById('progresso').style.width = '0%';
+        document.getElementById('texto-progresso').textContent = '0 / 12 respondidas';
+        document.getElementById('resultado').classList.remove('show');
+
+        ['recompensa-1', 'recompensa-2', 'recompensa-3'].forEach(id => {
+            document.getElementById(id).classList.remove('desbloqueado');
+        });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+</body>
+</html>

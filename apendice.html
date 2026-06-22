@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apêndice - Vetores e Matrizes em Java</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 40px;
+        }
+
+        .tab-link {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .tab-link:hover {
+            background: rgba(255,255,255,0.4);
+        }
+
+        .tab-link.active {
+            background: #11998e;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #11998e;
+            margin-bottom: 15px;
+            border-left: 5px solid #11998e;
+            padding-left: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card h3 {
+            color: #0d7a6b;
+            margin: 18px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .card h4 {
+            color: #2c5364;
+            margin: 12px 0 8px 0;
+            font-size: 1rem;
+        }
+
+        .step {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            border-left: 4px solid #11998e;
+            font-size: 0.95rem;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #11998e;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .code-block {
+            position: relative;
+            background: #1e1e2e;
+            color: #c9d1d9;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: #11998e;
+            color: white;
+            border: none;
+            padding: 3px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 10px;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #0d7a6b;
+        }
+
+        .copy-btn.copied {
+            background: #28a745;
+        }
+
+        .highlight {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+
+        .warning {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 8px 10px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background: #11998e;
+            color: white;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .conceito-box {
+            background: #f0f7ff;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-left: 4px solid #11998e;
+        }
+
+        .conceito-box strong {
+            color: #0d7a6b;
+        }
+
+        .btn-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #11998e;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            border-radius: 18px;
+            margin-top: 20px;
+        }
+
+        .footer p {
+            color: #1a1a2e;
+        }
+
+        .form-box {
+            background: #e7f3ff;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #2196f3;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .form-box a {
+            color: #2196f3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form-box a:hover {
+            text-decoration: underline;
+        }
+
+        .icon-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #1a1a2e;
+        }
+
+        .delivery-box {
+            background: #d4edda;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #28a745;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .delivery-box code {
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .delivery-box .icon-text {
+            color: #155724;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .exemplo-saida {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-family: monospace;
+            font-size: 12px;
+            margin: 5px 0;
+        }
+
+        hr {
+            margin: 15px 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+
+        .observacao {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border-left: 4px solid #dc3545;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        @media (max-width: 768px) {
+            .card { padding: 18px; }
+            .header h1 { font-size: 1.3rem; }
+            .tab-link { padding: 6px 12px; font-size: 0.7rem; }
+            .header { padding: 25px; }
+            .footer { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>📚 Apêndice - Vetores e Matrizes</h1>
+        <p>Conceitos complementares para fixação</p>
+        <div class="badge-group">
+            <span class="badge">📝 6 conceitos</span>
+            <span class="badge">💻 Códigos práticos</span>
+            <span class="badge">🎯 Fixação de dúvidas</span>
+        </div>
+    </div>
+
+    <!-- NAVEGAÇÃO -->
+    <div class="nav-tabs">
+        <button class="tab-link active" data-tab="declaracao">📝 DECLARAÇÃO</button>
+        <button class="tab-link" data-tab="objetos">📦 VETORES OBJETOS</button>
+        <button class="tab-link" data-tab="arrays">📋 ARRAYS.TOSTRING</button>
+        <button class="tab-link" data-tab="length">📏 LENGTH EM MATRIZES</button>
+        <button class="tab-link" data-tab="erros">⚠️ ERRO DE ÍNDICE</button>
+        <button class="tab-link" data-tab="resumo">📌 RESUMO</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 1: DECLARAÇÃO DE VETORES -->
+    <!-- ============================================================ -->
+    <div id="declaracao" class="tab-content active">
+        <div class="card">
+            <h2>📝 Declaração de Vetores em Java</h2>
+
+            <p>Existem <strong>diferentes formas</strong> de declarar um vetor em Java. Todas são válidas!</p>
+
+            <div class="conceito-box">
+                <strong>🎯 OBJETIVO:</strong> Mostrar as 3 formas de declarar um vetor e qual é a mais recomendada.
+            </div>
+
+            <h3>✅ Formas de declarar:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-declara')">📋 Copiar</button>
+                <pre id="code-declara"><code>// Forma 1: tipo[] nome (recomendada)
+int[] numeros;
+
+// Forma 2: tipo []nome
+int []numeros;
+
+// Forma 3: tipo nome[]
+int numeros[];</code></pre>
+            </div>
+
+            <div class="highlight tip">
+                💡 <strong>DICA:</strong> Use a <strong>Forma 1</strong> (<code>int[] numeros</code>) porque é a mais comum e legível!
+            </div>
+
+            <h3>🏗️ Como instanciar (criar) com tamanho:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-instancia')">📋 Copiar</button>
+                <pre id="code-instancia"><code>// Criar um vetor com 5 posições
+int[] numeros = new int[5];
+
+// Ou declarar e instanciar separadamente
+int[] idades;
+idades = new int[10];</code></pre>
+            </div>
+
+            <h3>✏️ Como inicializar diretamente:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-inicializa')">📋 Copiar</button>
+                <pre id="code-inicializa"><code>// Forma 1: com valores diretos (mais comum)
+int[] numeros = {10, 20, 30, 40, 50};
+
+// Forma 2: com new + valores
+int[] numeros = new int[]{10, 20, 30, 40, 50};
+
+// Forma 3: posição por posição
+int[] numeros = new int[5];
+numeros[0] = 10;
+numeros[1] = 20;
+numeros[2] = 30;
+numeros[3] = 40;
+numeros[4] = 50;</code></pre>
+            </div>
+
+            <div class="highlight success">
+                ✅ <strong>IMPORTANTE:</strong> A questão 9 do quiz perguntava sobre isso! <br>
+                <strong>Ambas as formas são válidas:</strong> <code>int[] v = new int[]{10,20,30,40,50};</code> e <code>int[] v = {10,20,30,40,50};</code>
+            </div>
+        </div>
+
+        <!-- COMO CRIAR NO NETBEANS -->
+        <div class="card">
+            <h2>📁 Como criar um exemplo no NetBeans</h2>
+
+            <div class="step">
+                <span class="step-number">1</span> No projeto <strong>Tema06Vetores</strong>, clique com botão direito em <strong>tema06</strong>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span> <strong>New → Java Class</strong> com nome: <code>ExemploDeclaracao</code>
+            </div>
+            <div class="step">
+                <span class="step-number">3</span> Cole o código abaixo e execute (Run File / Shift + F6)
+            </div>
+
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-exemplo-declaracao')">📋 Copiar</button>
+                <pre id="code-exemplo-declaracao"><code>package tema06;
+
+public class ExemploDeclaracao {
+    public static void main(String[] args) {
+        // Forma 1 - declarar e instanciar
+        int[] numeros1 = new int[3];
+        numeros1[0] = 10;
+        numeros1[1] = 20;
+        numeros1[2] = 30;
+
+        // Forma 2 - inicializar diretamente
+        int[] numeros2 = {40, 50, 60};
+
+        // Forma 3 - com new + valores
+        int[] numeros3 = new int[]{70, 80, 90};
+
+        System.out.println("Forma 1: " + numeros1[0] + ", " + numeros1[1] + ", " + numeros1[2]);
+        System.out.println("Forma 2: " + numeros2[0] + ", " + numeros2[1] + ", " + numeros2[2]);
+        System.out.println("Forma 3: " + numeros3[0] + ", " + numeros3[1] + ", " + numeros3[2]);
+    }
+}</code></pre>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída:<br>
+Forma 1: 10, 20, 30<br>
+Forma 2: 40, 50, 60<br>
+Forma 3: 70, 80, 90
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 2: VETORES SÃO OBJETOS -->
+    <!-- ============================================================ -->
+    <div id="objetos" class="tab-content">
+        <div class="card">
+            <h2>📦 Vetores são Objetos em Java</h2>
+
+            <p><strong>Vetores em Java são OBJETOS</strong>, não tipos primitivos!</p>
+
+            <div class="conceito-box">
+                <strong>🎯 OBJETIVO:</strong> Explicar que vetores têm atributos (como <code>length</code>) e podem ser passados para métodos.
+            </div>
+
+            <div class="highlight warning">
+                ⚠️ <strong>QUESTÃO 13 DO QUIZ:</strong><br>
+                Muitos alunos erram achando que vetor é tipo primitivo. <strong>NÃO É!</strong> Vetor é um OBJETO!
+            </div>
+
+            <h3>🔬 Por que vetores são objetos?</h3>
+            <ul style="margin-left: 30px; margin-bottom: 15px;">
+                <li>📦 <strong>Têm atributos:</strong> <code>length</code> (tamanho)</li>
+                <li>📦 <strong>Podem ser passados para métodos:</strong> <code>minhaFuncao(vetor)</code></li>
+                <li>📦 <strong>São criados com <code>new</code>:</strong> <code>new int[5]</code></li>
+                <li>📦 <strong>Possuem métodos:</strong> <code>clone()</code>, <code>toString()</code></li>
+            </ul>
+
+            <h3>📝 Comparando tipo primitivo vs objeto:</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr><th>Característica</th><th>Tipo primitivo (int)</th><th>Vetor (int[])</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Criado com</td><td>Valor direto: <code>int x = 5;</code></td><td><code>new int[5]</code></td></tr>
+                    <tr><td>Possui atributos?</td><td>Não</td><td>Sim (<code>length</code>)</td></tr>
+                    <tr><td>Possui métodos?</td><td>Não</td><td>Sim (<code>clone()</code>, <code>toString()</code>)</td></tr>
+                    <tr><td>Passado para método</td><td>Cópia do valor</td><td>Referência ao objeto</td></tr>
+                </tbody>
+            </table>
+
+            <h3>💻 Exemplo prático:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-objetos')">📋 Copiar</button>
+                <pre id="code-objetos"><code>package tema06;
+
+public class ExemploVetorObjeto {
+    public static void main(String[] args) {
+        // Vetor é um objeto! Veja:
+        int[] numeros = {10, 20, 30, 40, 50};
+
+        // Atributo length (objeto)
+        System.out.println("Tamanho do vetor: " + numeros.length);
+
+        // Verificando se é um objeto: instanceof
+        if (numeros instanceof Object) {
+            System.out.println("Vetor é um objeto!");
+        }
+
+        // Passando vetor para um método
+        int soma = somarVetor(numeros);
+        System.out.println("Soma: " + soma);
+    }
+
+    // Método que recebe um vetor (objeto) como parâmetro
+    public static int somarVetor(int[] vetor) {
+        int total = 0;
+        for (int valor : vetor) {
+            total += valor;
+        }
+        return total;
+    }
+}</code></pre>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída:<br>
+Tamanho do vetor: 5<br>
+Vetor é um objeto!<br>
+Soma: 150
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 3: ARRAYS.TOSTRING() -->
+    <!-- ============================================================ -->
+    <div id="arrays" class="tab-content">
+        <div class="card">
+            <h2>📋 Imprimindo Vetores com Arrays.toString()</h2>
+
+            <p>Para imprimir um vetor de forma fácil e legível, use <code>Arrays.toString()</code>.</p>
+
+            <div class="conceito-box">
+                <strong>🎯 OBJETIVO:</strong> Ensinar a importar e usar <code>Arrays.toString()</code> para imprimir vetores de forma elegante.
+            </div>
+
+            <div class="highlight warning">
+                ⚠️ <strong>QUESTÃO 16 DO QUIZ:</strong><br>
+                Para usar <code>Arrays.toString()</code>, você precisa importar: <br>
+                <code>import java.util.Arrays;</code>
+            </div>
+
+            <h3>📝 Como usar:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-arrays')">📋 Copiar</button>
+                <pre id="code-arrays"><code>// Importe no início do arquivo
+import java.util.Arrays;
+
+// Depois use:
+int[] numeros = {10, 20, 30, 40, 50};
+System.out.println(Arrays.toString(numeros));
+// Saída: [10, 20, 30, 40, 50]</code></pre>
+            </div>
+
+            <h3>📊 Comparação: Sem vs Com Arrays.toString()</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-arrays-comparacao')">📋 Copiar</button>
+                <pre id="code-arrays-comparacao"><code>package tema06;
+
+import java.util.Arrays;  // ← IMPORTANTE!
+
+public class ExemploArraysToString {
+    public static void main(String[] args) {
+        int[] numeros = {10, 20, 30, 40, 50};
+
+        // SEM Arrays.toString() → resultado feio
+        System.out.println("Sem toString: " + numeros);
+        // Saída: [I@15db9742 (endereço de memória)
+
+        // COM Arrays.toString() → resultado bonito!
+        System.out.println("Com toString: " + Arrays.toString(numeros));
+        // Saída: [10, 20, 30, 40, 50]
+    }
+}</code></pre>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída:<br>
+Sem toString: [I@15db9742<br>
+Com toString: [10, 20, 30, 40, 50]
+            </div>
+
+            <div class="highlight tip">
+                💡 <strong>DICA:</strong> Use <code>Arrays.toString()</code> sempre que precisar imprimir um vetor para depuração ou visualização!
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 4: LENGTH EM MATRIZES -->
+    <!-- ============================================================ -->
+    <div id="length" class="tab-content">
+        <div class="card">
+            <h2>📏 O que é <code>matriz.length</code>?</h2>
+
+            <p>Em uma matriz, <code>length</code> retorna o <strong>número de linhas</strong>, não o total de elementos!</p>
+
+            <div class="conceito-box">
+                <strong>🎯 OBJETIVO:</strong> Esclarecer que <code>matriz.length</code> dá o número de LINHAS e como acessar o número de COLUNAS.
+            </div>
+
+            <div class="highlight warning">
+                ⚠️ <strong>QUESTÃO 8 DO QUIZ:</strong><br>
+                Muitos alunos erram achando que <code>matriz.length</code> dá o total de elementos. <strong>NÃO!</strong> Dá o número de <strong>LINHAS</strong>!
+            </div>
+
+            <h3>📊 Entendendo:</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr><th>Código</th><th>Significado</th><th>Exemplo</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>matriz.length</code></td><td>Número de <strong>linhas</strong></td><td><code>int[][] m = new int[3][4];</code> → 3</td></tr>
+                    <tr><td><code>matriz[0].length</code></td><td>Número de <strong>colunas</strong> da linha 0</td><td><code>int[][] m = new int[3][4];</code> → 4</td></tr>
+                    <tr><td><code>matriz[i].length</code></td><td>Número de <strong>colunas</strong> da linha i</td><td><code>int[][] m = new int[3][4];</code> → 4</td></tr>
+                </tbody>
+            </table>
+
+            <h3>💻 Exemplo prático:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-length-matriz')">📋 Copiar</button>
+                <pre id="code-length-matriz"><code>package tema06;
+
+public class ExemploLengthMatriz {
+    public static void main(String[] args) {
+        int[][] matriz = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+
+        // matriz.length → número de LINHAS
+        System.out.println("Número de linhas: " + matriz.length);       // 3
+
+        // matriz[0].length → número de COLUNAS da linha 0
+        System.out.println("Número de colunas: " + matriz[0].length);   // 3
+
+        // Total de elementos = linhas × colunas
+        int total = matriz.length * matriz[0].length;
+        System.out.println("Total de elementos: " + total);             // 9
+    }
+}</code></pre>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída:<br>
+Número de linhas: 3<br>
+Número de colunas: 3<br>
+Total de elementos: 9
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 5: ERRO DE ÍNDICE -->
+    <!-- ============================================================ -->
+    <div id="erros" class="tab-content">
+        <div class="card">
+            <h2>⚠️ O que acontece ao acessar um índice inválido?</h2>
+
+            <p>Ao tentar acessar uma posição que não existe no vetor, o Java lança uma <strong>exceção</strong> chamada <code>ArrayIndexOutOfBoundsException</code>.</p>
+
+            <div class="conceito-box">
+                <strong>🎯 OBJETIVO:</strong> Mostrar o que acontece ao acessar um índice fora do limite e como evitar esse erro.
+            </div>
+
+            <div class="highlight warning">
+                ⚠️ <strong>QUESTÃO 19 DO QUIZ:</strong><br>
+                Acessar <code>numeros[5]</code> em um vetor de tamanho 5 <strong>NÃO</strong> retorna <code>null</code>!<br>
+                Gera um <strong>ERRO</strong> (<code>ArrayIndexOutOfBoundsException</code>)!
+            </div>
+
+            <h3>📊 Índices válidos:</h3>
+            <div class="code-block">
+                <pre><code>int[] numeros = new int[5];  // tamanho = 5
+
+// Índices válidos: 0, 1, 2, 3, 4
+// Índices INVÁLIDOS: -1, 5, 6, ...</code></pre>
+            </div>
+
+            <h3>💻 Exemplo de erro:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-erro')">📋 Copiar</button>
+                <pre id="code-erro"><code>package tema06;
+
+public class ExemploErroIndice {
+    public static void main(String[] args) {
+        int[] numeros = {10, 20, 30, 40, 50};  // tamanho = 5
+
+        System.out.println("Índice 0: " + numeros[0]);  // 10
+        System.out.println("Índice 4: " + numeros[4]);  // 50
+
+        // TENTANDO ACESSAR ÍNDICE 5 (NÃO EXISTE!)
+        System.out.println("Índice 5: " + numeros[5]);  // ❌ ERRO!
+
+        // O código abaixo NÃO executa!
+        System.out.println("Este print não será exibido!");
+    }
+}</code></pre>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída:<br>
+Índice 0: 10<br>
+Índice 4: 50<br>
+<strong style="color: #dc3545;">Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 5 out of bounds for length 5</strong>
+            </div>
+
+            <div class="observacao">
+                ⚠️ <strong>OBSERVAÇÃO:</strong> O programa <strong>para de executar</strong> quando encontra esse erro. As linhas seguintes NÃO são executadas!
+            </div>
+
+            <h3>✅ Como evitar esse erro:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-evitar-erro')">📋 Copiar</button>
+                <pre id="code-evitar-erro"><code>package tema06;
+
+public class ExemploEvitarErro {
+    public static void main(String[] args) {
+        int[] numeros = {10, 20, 30, 40, 50};
+
+        // Verifique se o índice é válido ANTES de acessar
+        int indice = 5;
+
+        if (indice >= 0 && indice < numeros.length) {
+            System.out.println("Valor: " + numeros[indice]);
+        } else {
+            System.out.println("Índice inválido! O vetor tem " + numeros.length + " elementos.");
+        }
+    }
+}</code></pre>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída:<br>
+Índice inválido! O vetor tem 5 elementos.
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB 6: RESUMO -->
+    <!-- ============================================================ -->
+    <div id="resumo" class="tab-content">
+        <div class="card">
+            <h2>📌 Resumo dos Conceitos Complementares</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr><th>Conceito</th><th>Resumo</th><th>Questão no Quiz</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Declaração de vetores</strong></td>
+                        <td>3 formas: <code>int[] v</code>, <code>int []v</code>, <code>int v[]</code> (recomendada: <code>int[] v</code>)</td>
+                        <td>Q4</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Inicialização de vetores</strong></td>
+                        <td>Ambas são válidas: <code>int[] v = {1,2,3};</code> e <code>int[] v = new int[]{1,2,3};</code></td>
+                        <td>Q9</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Vetores são objetos</strong></td>
+                        <td>Vetores têm atributos (<code>length</code>) e podem ser passados para métodos</td>
+                        <td>Q13</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Arrays.toString()</strong></td>
+                        <td>Importe <code>java.util.Arrays</code> e use <code>Arrays.toString(vetor)</code></td>
+                        <td>Q16</td>
+                    </tr>
+                    <tr>
+                        <td><strong>length em matrizes</strong></td>
+                        <td><code>matriz.length</code> = linhas, <code>matriz[0].length</code> = colunas</td>
+                        <td>Q8</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Erro de índice</strong></td>
+                        <td>Acessar índice inválido gera <code>ArrayIndexOutOfBoundsException</code></td>
+                        <td>Q19</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight success">
+                🎯 <strong>PARA FIXAR:</strong> Crie um programa que teste <strong>TODOS</strong> esses conceitos juntos!
+            </div>
+
+            <h3>💻 Programa completo com todos os conceitos:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-resumo')">📋 Copiar</button>
+                <pre id="code-resumo"><code>package tema06;
+
+import java.util.Arrays;
+
+public class ResumoVetores {
+    public static void main(String[] args) {
+
+        // 1. DECLARAÇÃO E INICIALIZAÇÃO
+        int[] numeros = {10, 20, 30, 40, 50};
+        int[] numeros2 = new int[]{60, 70, 80};
+
+        // 2. VETOR É OBJETO
+        System.out.println("Vetor é objeto? " + (numeros instanceof Object));
+        System.out.println("Tamanho (length): " + numeros.length);
+
+        // 3. Arrays.toString()
+        System.out.println("Vetor: " + Arrays.toString(numeros));
+
+        // 4. MATRIZ E length
+        int[][] matriz = {
+            {1, 2, 3},
+            {4, 5, 6}
+        };
+        System.out.println("Linhas: " + matriz.length);
+        System.out.println("Colunas: " + matriz[0].length);
+        System.out.println("Matriz: " + Arrays.deepToString(matriz));
+
+        // 5. CUIDADO COM ÍNDICES
+        int indice = 5;
+        if (indice < numeros.length) {
+            System.out.println("Valor no índice " + indice + ": " + numeros[indice]);
+        } else {
+            System.out.println("Índice " + indice + " inválido!");
+        }
+    }
+}</code></pre>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída:<br>
+Vetor é objeto? true<br>
+Tamanho (length): 5<br>
+Vetor: [10, 20, 30, 40, 50]<br>
+Linhas: 2<br>
+Colunas: 3<br>
+Matriz: [[1, 2, 3], [4, 5, 6]]<br>
+Índice 5 inválido!
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- FOOTER COM FORMULÁRIO -->
+    <!-- ============================================================ -->
+    <div class="footer">
+        <div class="form-box">
+            <div class="icon-text">📋</div>
+            <strong style="color: #1a1a2e;">Formulário para entrega das atividades e relatório da aula:</strong><br>
+            <a href="https://forms.gle/zbUB57A4FteUDsKSA" target="_blank">https://forms.gle/zbUB57A4FteUDsKSA</a>
+        </div>
+
+        <div class="delivery-box">
+            <div class="icon-text">📤</div>
+            <strong style="color: #155724;">ENTREGA:</strong><br>
+            <span style="color: #155724;">Resultado do quiz + link do repositório <code style="background: white; padding: 2px 8px; border-radius: 4px; color: #28a745;">java6</code></span>
+        </div>
+
+        <hr>
+
+        <p style="color: #1a1a2e;">📚 Apêndice - Vetores e Matrizes | Java</p>
+        <p style="color: #1a1a2e;">🎯 Conceitos complementares para fixação!</p>
+    </div>
+</div>
+
+<button class="btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Topo</button>
+
+<script>
+    // Sistema de abas
+    const tabLinks = document.querySelectorAll('.tab-link');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const tabId = link.getAttribute('data-tab');
+            tabLinks.forEach(l => l.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            link.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // Função de copiar código
+    function copyCode(btn, elementId) {
+        const codeElement = document.getElementById(elementId);
+        const textToCopy = codeElement.innerText;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Copiado!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+        }).catch(() => {
+            btn.innerHTML = '❌ Erro';
+            setTimeout(() => btn.innerHTML = '📋 Copiar', 2000);
+        });
+    }
+</script>
+</body>
+</html>

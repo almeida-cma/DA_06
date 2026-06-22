@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Vetores e Matrizes em Java</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #11998e;
+            margin-bottom: 15px;
+            border-left: 5px solid #11998e;
+            padding-left: 15px;
+            font-size: 1.3rem;
+        }
+
+        .question {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px 18px;
+            margin-bottom: 15px;
+            border-left: 4px solid #11998e;
+        }
+
+        .question-number {
+            display: inline-block;
+            background: #11998e;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .question-text {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .question-text code {
+            background: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .option input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .option label {
+            font-size: 14px;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .option.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .option.wrong {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .option.disabled {
+            opacity: 0.7;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(17,153,142,0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .result-box {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 3px solid #11998e;
+            display: none;
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .score {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feedback-item {
+            padding: 6px 0;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .feedback-item.correct {
+            color: #28a745;
+        }
+
+        .feedback-item.wrong {
+            color: #dc3545;
+        }
+
+        .btn-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .footer p {
+            color: #1a1a2e;
+        }
+
+        .form-box {
+            background: #e7f3ff;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #2196f3;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .form-box a {
+            color: #2196f3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form-box a:hover {
+            text-decoration: underline;
+        }
+
+        .icon-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #1a1a2e;
+        }
+
+        .delivery-box {
+            background: #d4edda;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #28a745;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .delivery-box code {
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .delivery-box .icon-text {
+            color: #155724;
+        }
+
+        hr {
+            margin: 15px 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+
+        .gabarito-print {
+            display: none;
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .gabarito-print {
+                display: block !important;
+            }
+            .question {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            .header {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            .option.correct {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .option.wrong {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .badge {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card { padding: 18px; }
+            .header h1 { font-size: 1.4rem; }
+            .options { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>📊 Quiz - Vetores e Matrizes em Java</h1>
+        <p>Teste seus conhecimentos sobre arrays e matrizes</p>
+        <div class="badge-group">
+            <span class="badge">📝 20 questões</span>
+            <span class="badge">⏱️ ~15 minutos</span>
+            <span class="badge">🎯 Vetores | Matrizes | Laços</span>
+        </div>
+    </div>
+
+    <!-- INTRODUÇÃO -->
+    <div class="card no-print">
+        <h2>📖 Instruções</h2>
+        <p>Responda as <strong>20 questões</strong> sobre vetores e matrizes em Java.</p>
+        <p>Ao final, clique em <strong>"Verificar Respostas"</strong> para corrigir e ver seu desempenho.</p>
+        <p>Você pode <strong>imprimir</strong> o resultado com o gabarito clicando no botão ao final.</p>
+
+        <div class="highlight tip">
+            💡 <strong>DICA:</strong> Revise os exemplos dos desafios antes de começar!
+        </div>
+    </div>
+
+    <!-- QUESTÕES -->
+    <div class="card" id="testes">
+        <h2>✏️ Responda as questões</h2>
+
+        <!-- Q1 -->
+        <div class="question" id="q1">
+            <div class="question-text">
+                <span class="question-number">1</span>
+                Qual é a principal característica de um vetor em Java?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q1" value="A"><label>Armazenar diferentes tipos</label></div>
+                <div class="option"><input type="radio" name="q1" value="B"><label>Armazenar elementos do mesmo tipo em sequência</label></div>
+                <div class="option"><input type="radio" name="q1" value="C"><label>Armazenar elementos em ordem aleatória</label></div>
+                <div class="option"><input type="radio" name="q1" value="D"><label>Armazenar apenas números inteiros</label></div>
+            </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="question" id="q2">
+            <div class="question-text">
+                <span class="question-number">2</span>
+                Qual método retorna o tamanho de um vetor em Java?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q2" value="A"><label>size()</label></div>
+                <div class="option"><input type="radio" name="q2" value="B"><label>length</label></div>
+                <div class="option"><input type="radio" name="q2" value="C"><label>count()</label></div>
+                <div class="option"><input type="radio" name="q2" value="D"><label>getLength()</label></div>
+            </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="question" id="q3">
+            <div class="question-text">
+                <span class="question-number">3</span>
+                Em Java, o índice do primeiro elemento de um vetor é:
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q3" value="A"><label>1</label></div>
+                <div class="option"><input type="radio" name="q3" value="B"><label>0</label></div>
+                <div class="option"><input type="radio" name="q3" value="C"><label>-1</label></div>
+                <div class="option"><input type="radio" name="q3" value="D"><label>Depende do tamanho</label></div>
+            </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="question" id="q4">
+            <div class="question-text">
+                <span class="question-number">4</span>
+                Como se declara um vetor de inteiros com 5 posições?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q4" value="A"><label>int[5] numeros = new int[];</label></div>
+                <div class="option"><input type="radio" name="q4" value="B"><label>int[] numeros = new int[5];</label></div>
+                <div class="option"><input type="radio" name="q4" value="C"><label>int numeros = new int[5];</label></div>
+                <div class="option"><input type="radio" name="q4" value="D"><label>int[] numeros = {5};</label></div>
+            </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="question" id="q5">
+            <div class="question-text">
+                <span class="question-number">5</span>
+                Qual a sintaxe correta para acessar o elemento na posição 2 de um vetor "numeros"?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q5" value="A"><label>numeros[2]</label></div>
+                <div class="option"><input type="radio" name="q5" value="B"><label>numeros.get(2)</label></div>
+                <div class="option"><input type="radio" name="q5" value="C"><label>numeros.at(2)</label></div>
+                <div class="option"><input type="radio" name="q5" value="D"><label>numeros(2)</label></div>
+            </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="question" id="q6">
+            <div class="question-text">
+                <span class="question-number">6</span>
+                Qual estrutura é usada para percorrer um vetor quando só precisamos ler os valores?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q6" value="A"><label>for (int i=0; i<n; i++)</label></div>
+                <div class="option"><input type="radio" name="q6" value="B"><label>for-each</label></div>
+                <div class="option"><input type="radio" name="q6" value="C"><label>while</label></div>
+                <div class="option"><input type="radio" name="q6" value="D"><label>do-while</label></div>
+            </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="question" id="q7">
+            <div class="question-text">
+                <span class="question-number">7</span>
+                Como se declara uma matriz 3x3 em Java?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q7" value="A"><label>int[3,3] matriz = new int[][];</label></div>
+                <div class="option"><input type="radio" name="q7" value="B"><label>int[][] matriz = new int[3][3];</label></div>
+                <div class="option"><input type="radio" name="q7" value="C"><label>int matriz[][] = new int[3,3];</label></div>
+                <div class="option"><input type="radio" name="q7" value="D"><label>int[3][3] matriz = new int[][];</label></div>
+            </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="question" id="q8">
+            <div class="question-text">
+                <span class="question-number">8</span>
+                Em uma matriz, o que `matriz.length` representa?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q8" value="A"><label>Número de colunas</label></div>
+                <div class="option"><input type="radio" name="q8" value="B"><label>Número de linhas</label></div>
+                <div class="option"><input type="radio" name="q8" value="C"><label>Total de elementos</label></div>
+                <div class="option"><input type="radio" name="q8" value="D"><label>Número de dimensões</label></div>
+            </div>
+        </div>
+
+        <!-- Q9 -->
+        <div class="question" id="q9">
+            <div class="question-text">
+                <span class="question-number">9</span>
+                Qual código cria e inicializa um vetor com {10, 20, 30, 40, 50}?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q9" value="A"><label>int[] v = new int[]{10,20,30,40,50};</label></div>
+                <div class="option"><input type="radio" name="q9" value="B"><label>int[] v = {10,20,30,40,50};</label></div>
+                <div class="option"><input type="radio" name="q9" value="C"><label>Ambas as formas acima</label></div>
+                <div class="option"><input type="radio" name="q9" value="D"><label>Nenhuma das anteriores</label></div>
+            </div>
+        </div>
+
+        <!-- Q10 -->
+        <div class="question" id="q10">
+            <div class="question-text">
+                <span class="question-number">10</span>
+                O que a instrução `soma += numeros[i];` faz?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q10" value="A"><label>Subtrai numeros[i] de soma</label></div>
+                <div class="option"><input type="radio" name="q10" value="B"><label>Adiciona numeros[i] à soma</label></div>
+                <div class="option"><input type="radio" name="q10" value="C"><label>Multiplica soma por numeros[i]</label></div>
+                <div class="option"><input type="radio" name="q10" value="D"><label>Divide soma por numeros[i]</label></div>
+            </div>
+        </div>
+
+        <!-- Q11 -->
+        <div class="question" id="q11">
+            <div class="question-text">
+                <span class="question-number">11</span>
+                Qual o valor de `numeros.length` se `int[] numeros = {1, 2, 3, 4, 5};`?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q11" value="A"><label>4</label></div>
+                <div class="option"><input type="radio" name="q11" value="B"><label>5</label></div>
+                <div class="option"><input type="radio" name="q11" value="C"><label>6</label></div>
+                <div class="option"><input type="radio" name="q11" value="D"><label>10</label></div>
+            </div>
+        </div>
+
+        <!-- Q12 -->
+        <div class="question" id="q12">
+            <div class="question-text">
+                <span class="question-number">12</span>
+                Como imprimir todos os elementos de um vetor `numeros` com for-each?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q12" value="A"><label>for (int i=0; i<numeros.length; i++)</label></div>
+                <div class="option"><input type="radio" name="q12" value="B"><label>for (int valor : numeros)</label></div>
+                <div class="option"><input type="radio" name="q12" value="C"><label>for (int valor = 0; valor < numeros.length; valor++)</label></div>
+                <div class="option"><input type="radio" name="q12" value="D"><label>for (int i : numeros.length)</label></div>
+            </div>
+        </div>
+
+        <!-- Q13 -->
+        <div class="question" id="q13">
+            <div class="question-text">
+                <span class="question-number">13</span>
+                Em Java, vetores são objetos ou tipos primitivos?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q13" value="A"><label>Tipos primitivos</label></div>
+                <div class="option"><input type="radio" name="q13" value="B"><label>Objetos</label></div>
+                <div class="option"><input type="radio" name="q13" value="C"><label>Ambos</label></div>
+                <div class="option"><input type="radio" name="q13" value="D"><label>Nenhum</label></div>
+            </div>
+        </div>
+
+        <!-- Q14 -->
+        <div class="question" id="q14">
+            <div class="question-text">
+                <span class="question-number">14</span>
+                Qual é a saída do código abaixo?<br>
+                <code>int[] v = {1, 2, 3};<br>System.out.println(v[2]);</code>
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q14" value="A"><label>1</label></div>
+                <div class="option"><input type="radio" name="q14" value="B"><label>2</label></div>
+                <div class="option"><input type="radio" name="q14" value="C"><label>3</label></div>
+                <div class="option"><input type="radio" name="q14" value="D"><label>Erro</label></div>
+            </div>
+        </div>
+
+        <!-- Q15 -->
+        <div class="question" id="q15">
+            <div class="question-text">
+                <span class="question-number">15</span>
+                Para calcular a média de notas em um vetor, precisamos:
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q15" value="A"><label>Somar e dividir pelo tamanho</label></div>
+                <div class="option"><input type="radio" name="q15" value="B"><label>Somar e multiplicar pelo tamanho</label></div>
+                <div class="option"><input type="radio" name="q15" value="C"><label>Dividir cada nota pelo tamanho</label></div>
+                <div class="option"><input type="radio" name="q15" value="D"><label>Nenhuma das anteriores</label></div>
+            </div>
+        </div>
+
+        <!-- Q16 -->
+        <div class="question" id="q16">
+            <div class="question-text">
+                <span class="question-number">16</span>
+                Qual método é usado para imprimir um vetor com Arrays.toString()?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q16" value="A"><label>import java.util.Arrays;</label></div>
+                <div class="option"><input type="radio" name="q16" value="B"><label>import java.lang.Arrays;</label></div>
+                <div class="option"><input type="radio" name="q16" value="C"><label>import java.io.Arrays;</label></div>
+                <div class="option"><input type="radio" name="q16" value="D"><label>Não precisa importar</label></div>
+            </div>
+        </div>
+
+        <!-- Q17 -->
+        <div class="question" id="q17">
+            <div class="question-text">
+                <span class="question-number">17</span>
+                Em uma matriz 3x3, quantos elementos existem no total?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q17" value="A"><label>3</label></div>
+                <div class="option"><input type="radio" name="q17" value="B"><label>6</label></div>
+                <div class="option"><input type="radio" name="q17" value="C"><label>9</label></div>
+                <div class="option"><input type="radio" name="q17" value="D"><label>12</label></div>
+            </div>
+        </div>
+
+        <!-- Q18 -->
+        <div class="question" id="q18">
+            <div class="question-text">
+                <span class="question-number">18</span>
+                Qual é a saída?<br>
+                <code>int[][] m = {{1,2},{3,4}};<br>System.out.println(m[0][1]);</code>
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q18" value="A"><label>1</label></div>
+                <div class="option"><input type="radio" name="q18" value="B"><label>2</label></div>
+                <div class="option"><input type="radio" name="q18" value="C"><label>3</label></div>
+                <div class="option"><input type="radio" name="q18" value="D"><label>4</label></div>
+            </div>
+        </div>
+
+        <!-- Q19 -->
+        <div class="question" id="q19">
+            <div class="question-text">
+                <span class="question-number">19</span>
+                O que acontece ao tentar acessar `numeros[5]` se o vetor tem tamanho 5?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q19" value="A"><label>Retorna null</label></div>
+                <div class="option"><input type="radio" name="q19" value="B"><label>Gera um erro (IndexOutOfBounds)</label></div>
+                <div class="option"><input type="radio" name="q19" value="C"><label>Retorna o último elemento</label></div>
+                <div class="option"><input type="radio" name="q19" value="D"><label>Não acontece nada</label></div>
+            </div>
+        </div>
+
+        <!-- Q20 -->
+        <div class="question" id="q20">
+            <div class="question-text">
+                <span class="question-number">20</span>
+                Para percorrer uma matriz com `for`, quantos loops são necessários?
+            </div>
+            <div class="options">
+                <div class="option"><input type="radio" name="q20" value="A"><label>1</label></div>
+                <div class="option"><input type="radio" name="q20" value="B"><label>2 (aninhados)</label></div>
+                <div class="option"><input type="radio" name="q20" value="C"><label>3</label></div>
+                <div class="option"><input type="radio" name="q20" value="D"><label>Depende da matriz</label></div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;" class="no-print">
+            <button class="btn" onclick="corrigirQuiz()">✅ Verificar Respostas</button>
+            <button class="btn btn-secondary" onclick="limparQuiz()">🔄 Limpar respostas</button>
+        </div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div class="card result-box" id="resultado">
+        <h2>📊 Resultado do Quiz</h2>
+        <div class="score" id="pontuacao">0 / 20</div>
+        <p style="margin: 10px 0;">Respostas corretas:</p>
+        <div id="feedback"></div>
+
+        <div style="margin-top: 20px;" class="no-print">
+            <button class="btn btn-success" onclick="window.print()">🖨️ Imprimir Gabarito (PDF)</button>
+        </div>
+        <div class="highlight info" style="margin-top: 15px;">
+            📸 <strong>IMPORTANTE:</strong> Imprima esta página como PDF (Ctrl+P → Salvar como PDF) para registrar seu resultado!
+        </div>
+    </div>
+
+    <!-- GABARITO PARA IMPRESSÃO -->
+    <div class="gabarito-print" id="gabarito-print">
+        <div class="card">
+            <h2>📋 GABARITO - Vetores e Matrizes em Java</h2>
+            <p style="margin-bottom: 15px;">Data: <span id="data-print"></span></p>
+            <div id="gabarito-lista"></div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer no-print">
+        <div class="form-box">
+            <div class="icon-text">📋</div>
+            <strong style="color: #1a1a2e;">Formulário para entrega das atividades e relatório da aula:</strong><br>
+            <a href="https://forms.gle/zbUB57A4FteUDsKSA" target="_blank">https://forms.gle/zbUB57A4FteUDsKSA</a>
+        </div>
+
+        <div class="delivery-box">
+            <div class="icon-text">📤</div>
+            <strong style="color: #155724;">ENTREGA:</strong><br>
+            <span style="color: #155724;">Resultado do quiz + link do repositório <code style="background: white; padding: 2px 8px; border-radius: 4px; color: #28a745;">java6</code></span>
+        </div>
+
+        <hr>
+
+        <p style="color: #1a1a2e;">📚 TEMA 06 - Vetores e Matrizes | Quiz de Fixação</p>
+        <p style="color: #1a1a2e;">🎯 Teste seus conhecimentos sobre arrays e matrizes em Java!</p>
+    </div>
+</div>
+
+<button class="btn-top no-print" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Topo</button>
+
+<script>
+    // GABARITO OFICIAL
+    const gabarito = {
+        q1: 'B',
+        q2: 'B',
+        q3: 'B',
+        q4: 'B',
+        q5: 'A',
+        q6: 'B',
+        q7: 'B',
+        q8: 'B',
+        q9: 'C',
+        q10: 'B',
+        q11: 'B',
+        q12: 'B',
+        q13: 'B',
+        q14: 'C',
+        q15: 'A',
+        q16: 'A',
+        q17: 'C',
+        q18: 'B',
+        q19: 'B',
+        q20: 'B'
+    };
+
+    const alternativas = {
+        q1: ['A', 'B', 'C', 'D'],
+        q2: ['A', 'B', 'C', 'D'],
+        q3: ['A', 'B', 'C', 'D'],
+        q4: ['A', 'B', 'C', 'D'],
+        q5: ['A', 'B', 'C', 'D'],
+        q6: ['A', 'B', 'C', 'D'],
+        q7: ['A', 'B', 'C', 'D'],
+        q8: ['A', 'B', 'C', 'D'],
+        q9: ['A', 'B', 'C', 'D'],
+        q10: ['A', 'B', 'C', 'D'],
+        q11: ['A', 'B', 'C', 'D'],
+        q12: ['A', 'B', 'C', 'D'],
+        q13: ['A', 'B', 'C', 'D'],
+        q14: ['A', 'B', 'C', 'D'],
+        q15: ['A', 'B', 'C', 'D'],
+        q16: ['A', 'B', 'C', 'D'],
+        q17: ['A', 'B', 'C', 'D'],
+        q18: ['A', 'B', 'C', 'D'],
+        q19: ['A', 'B', 'C', 'D'],
+        q20: ['A', 'B', 'C', 'D']
+    };
+
+    const perguntas = {
+        q1: 'Qual é a principal característica de um vetor em Java?',
+        q2: 'Qual método retorna o tamanho de um vetor em Java?',
+        q3: 'Em Java, o índice do primeiro elemento de um vetor é:',
+        q4: 'Como se declara um vetor de inteiros com 5 posições?',
+        q5: 'Qual a sintaxe correta para acessar o elemento na posição 2 de um vetor "numeros"?',
+        q6: 'Qual estrutura é usada para percorrer um vetor quando só precisamos ler os valores?',
+        q7: 'Como se declara uma matriz 3x3 em Java?',
+        q8: 'Em uma matriz, o que `matriz.length` representa?',
+        q9: 'Qual código cria e inicializa um vetor com {10, 20, 30, 40, 50}?',
+        q10: 'O que a instrução `soma += numeros[i];` faz?',
+        q11: 'Qual o valor de `numeros.length` se `int[] numeros = {1, 2, 3, 4, 5};`?',
+        q12: 'Como imprimir todos os elementos de um vetor `numeros` com for-each?',
+        q13: 'Em Java, vetores são objetos ou tipos primitivos?',
+        q14: 'Qual é a saída do código `int[] v = {1, 2, 3}; System.out.println(v[2]);`?',
+        q15: 'Para calcular a média de notas em um vetor, precisamos:',
+        q16: 'Qual método é usado para imprimir um vetor com Arrays.toString()?',
+        q17: 'Em uma matriz 3x3, quantos elementos existem no total?',
+        q18: 'Qual é a saída de `int[][] m = {{1,2},{3,4}}; System.out.println(m[0][1]);`?',
+        q19: 'O que acontece ao tentar acessar `numeros[5]` se o vetor tem tamanho 5?',
+        q20: 'Para percorrer uma matriz com `for`, quantos loops são necessários?'
+    };
+
+    const opcoes = {
+        q1: ['Armazenar diferentes tipos', 'Armazenar elementos do mesmo tipo em sequência', 'Armazenar elementos em ordem aleatória', 'Armazenar apenas números inteiros'],
+        q2: ['size()', 'length', 'count()', 'getLength()'],
+        q3: ['1', '0', '-1', 'Depende do tamanho'],
+        q4: ['int[5] numeros = new int[];', 'int[] numeros = new int[5];', 'int numeros = new int[5];', 'int[] numeros = {5};'],
+        q5: ['numeros[2]', 'numeros.get(2)', 'numeros.at(2)', 'numeros(2)'],
+        q6: ['for (int i=0; i<n; i++)', 'for-each', 'while', 'do-while'],
+        q7: ['int[3,3] matriz = new int[][];', 'int[][] matriz = new int[3][3];', 'int matriz[][] = new int[3,3];', 'int[3][3] matriz = new int[][];'],
+        q8: ['Número de colunas', 'Número de linhas', 'Total de elementos', 'Número de dimensões'],
+        q9: ['int[] v = new int[]{10,20,30,40,50};', 'int[] v = {10,20,30,40,50};', 'Ambas as formas acima', 'Nenhuma das anteriores'],
+        q10: ['Subtrai numeros[i] de soma', 'Adiciona numeros[i] à soma', 'Multiplica soma por numeros[i]', 'Divide soma por numeros[i]'],
+        q11: ['4', '5', '6', '10'],
+        q12: ['for (int i=0; i<numeros.length; i++)', 'for (int valor : numeros)', 'for (int valor = 0; valor < numeros.length; valor++)', 'for (int i : numeros.length)'],
+        q13: ['Tipos primitivos', 'Objetos', 'Ambos', 'Nenhum'],
+        q14: ['1', '2', '3', 'Erro'],
+        q15: ['Somar e dividir pelo tamanho', 'Somar e multiplicar pelo tamanho', 'Dividir cada nota pelo tamanho', 'Nenhuma das anteriores'],
+        q16: ['import java.util.Arrays;', 'import java.lang.Arrays;', 'import java.io.Arrays;', 'Não precisa importar'],
+        q17: ['3', '6', '9', '12'],
+        q18: ['1', '2', '3', '4'],
+        q19: ['Retorna null', 'Gera um erro (IndexOutOfBounds)', 'Retorna o último elemento', 'Não acontece nada'],
+        q20: ['1', '2 (aninhados)', '3', 'Depende da matriz']
+    };
+
+    function corrigirQuiz() {
+        let acertos = 0;
+        let feedbackHTML = '';
+        let todasRespondidas = true;
+
+        for (let [id, gab] of Object.entries(gabarito)) {
+            const selected = document.querySelector(`input[name="${id}"]:checked`);
+            const questionDiv = document.getElementById(id);
+            const options = questionDiv.querySelectorAll('.option');
+
+            if (!selected) {
+                todasRespondidas = false;
+                options.forEach(opt => opt.classList.add('disabled'));
+                continue;
+            }
+
+            const resposta = selected.value;
+            const isCorrect = resposta === gab;
+
+            options.forEach(opt => {
+                const radio = opt.querySelector('input[type="radio"]');
+                if (radio.value === gab) {
+                    opt.classList.add('correct');
+                } else if (radio.checked && radio.value !== gab) {
+                    opt.classList.add('wrong');
+                }
+                radio.disabled = true;
+            });
+
+            if (isCorrect) {
+                acertos++;
+                feedbackHTML += `<div class="feedback-item correct">✅ Q${id.replace('q', '')} - Correta</div>`;
+            } else {
+                feedbackHTML += `<div class="feedback-item wrong">❌ Q${id.replace('q', '')} - Incorreta (resposta: ${gab})</div>`;
+            }
+        }
+
+        if (!todasRespondidas) {
+            alert('⚠️ Responda todas as questões antes de finalizar!');
+            return;
+        }
+
+        document.getElementById('pontuacao').textContent = acertos + ' / 20';
+        document.getElementById('feedback').innerHTML = feedbackHTML;
+        document.getElementById('resultado').classList.add('show');
+
+        document.getElementById('resultado').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // Preparar gabarito para impressão
+        let gabaritoHTML = '';
+        for (let [id, gab] of Object.entries(gabarito)) {
+            const num = id.replace('q', '');
+            gabaritoHTML += `
+                <div style="padding: 6px 0; border-bottom: 1px solid #eee; font-size: 14px;">
+                    <strong>Q${num}:</strong> ${perguntas[id]}<br>
+                    <span style="color: #28a745;">✅ Resposta correta: ${gab} - ${opcoes[id][['A','B','C','D'].indexOf(gab)]}</span>
+                </div>
+            `;
+        }
+        document.getElementById('gabarito-lista').innerHTML = gabaritoHTML;
+        document.getElementById('data-print').textContent = new Date().toLocaleDateString('pt-BR');
+
+        let mensagem = '';
+        if (acertos === 20) {
+            mensagem = `
+                <div class="highlight success" style="margin-top: 15px; text-align: left;">
+                    👑 <strong>PARABÉNS! VOCÊ É UM MESTRE DOS VETORES!</strong><br>
+                    Você acertou todas as 20 questões! Excelente domínio do conteúdo!
+                </div>
+            `;
+        } else if (acertos >= 15) {
+            mensagem = `
+                <div class="highlight tip" style="margin-top: 15px; text-align: left;">
+                    🌟 <strong>Ótimo desempenho!</strong> Você acertou ${acertos}/20. Revise apenas os tópicos que errou!
+                </div>
+            `;
+        } else if (acertos >= 10) {
+            mensagem = `
+                <div class="highlight info" style="margin-top: 15px; text-align: left;">
+                    📚 <strong>Bom trabalho!</strong> Você acertou ${acertos}/20. Continue revisando os conceitos para fixar melhor!
+                </div>
+            `;
+        } else {
+            mensagem = `
+                <div class="highlight warning" style="margin-top: 15px; text-align: left;">
+                    📚 <strong>Que tal revisar os exemplos novamente?</strong> Você acertou ${acertos}/20. Pratique mais para fixar os conceitos!
+                </div>
+            `;
+        }
+        document.getElementById('feedback').innerHTML += mensagem;
+    }
+
+    function limparQuiz() {
+        const radios = document.querySelectorAll('input[type="radio"]');
+        radios.forEach(radio => {
+            radio.checked = false;
+            radio.disabled = false;
+        });
+
+        const options = document.querySelectorAll('.option');
+        options.forEach(opt => {
+            opt.classList.remove('correct', 'wrong', 'disabled');
+        });
+
+        document.getElementById('resultado').classList.remove('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEMA 06 - Vetores e Matrizes em Java</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 25px;
+            background: rgba(255,255,255,0.1);
+            padding: 12px;
+            border-radius: 50px;
+        }
+
+        .tab-link {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 10px 22px;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .tab-link:hover {
+            background: rgba(255,255,255,0.4);
+        }
+
+        .tab-link.active {
+            background: #11998e;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .card h2 {
+            color: #11998e;
+            margin-bottom: 20px;
+            border-left: 5px solid #11998e;
+            padding-left: 18px;
+            font-size: 1.5rem;
+        }
+
+        .card h3 {
+            color: #0d7a6b;
+            margin: 20px 0 12px 0;
+            font-size: 1.2rem;
+        }
+
+        .card h4 {
+            color: #2c5364;
+            margin: 15px 0 10px 0;
+            font-size: 1.05rem;
+        }
+
+        .step {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            border-left: 4px solid #11998e;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #11998e;
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 26px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .code-block {
+            position: relative;
+            background: #1e1e2e;
+            color: #c9d1d9;
+            border-radius: 12px;
+            padding: 18px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #11998e;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .copy-btn:hover {
+            background: #0d7a6b;
+        }
+
+        .copy-btn.copied {
+            background: #28a745;
+        }
+
+        .highlight {
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .warning {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background: #11998e;
+            color: white;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .btn-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #11998e;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+        }
+
+        .footer p {
+            color: #1a1a2e;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .activity-badge {
+            display: inline-block;
+            background: #dc3545;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        .exemplo-saida {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-family: monospace;
+            font-size: 12px;
+            margin: 5px 0;
+        }
+
+        .form-box {
+            background: #e7f3ff;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #2196f3;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .form-box a {
+            color: #2196f3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form-box a:hover {
+            text-decoration: underline;
+        }
+
+        .icon-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #1a1a2e;
+        }
+
+        .delivery-box {
+            background: #d4edda;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #28a745;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .delivery-box code {
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .delivery-box .icon-text {
+            color: #155724;
+        }
+
+        .tree {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .objetivo-box {
+            background: #e8f5e9;
+            border-radius: 12px;
+            padding: 15px 18px;
+            margin: 10px 0;
+            border-left: 4px solid #11998e;
+        }
+
+        .objetivo-box strong {
+            color: #0d7a6b;
+        }
+
+        @media (max-width: 768px) {
+            .card { padding: 20px; }
+            .header h1 { font-size: 1.5rem; }
+            .tab-link { padding: 6px 14px; font-size: 0.75rem; }
+            .footer { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>📊 TEMA 06 - Vetores e Matrizes</h1>
+        <p>Armazenamento e organização de dados em Java</p>
+        <div class="badge-group">
+            <span class="badge">📊 Vetores</span>
+            <span class="badge">📋 Matrizes</span>
+            <span class="badge">🔄 for-each</span>
+            <span class="badge">📈 Aplicações</span>
+        </div>
+    </div>
+
+    <!-- Navegação por abas -->
+    <div class="nav-tabs">
+        <button class="tab-link active" data-tab="config">📋 CONFIGURAÇÃO</button>
+        <button class="tab-link" data-tab="conceitos">📖 CONCEITOS</button>
+        <button class="tab-link" data-tab="vetores">📊 VETORES</button>
+        <button class="tab-link" data-tab="matrizes">📋 MATRIZES</button>
+        <button class="tab-link" data-tab="exemplos">💻 EXEMPLOS</button>
+        <button class="tab-link" data-tab="desafios">🏆 DESAFIOS</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB: CONFIGURAÇÃO -->
+    <!-- ============================================================ -->
+    <div id="config" class="tab-content active">
+        <div class="card">
+            <h2>🚀 Configuração do Projeto no NetBeans</h2>
+
+            <div class="step">
+                <span class="step-number">1</span> <strong>File → New Project</strong>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span> Escolha: <strong>Java with Ant</strong> → <strong>Java Application</strong>
+            </div>
+            <div class="step">
+                <span class="step-number">3</span> <strong>Project Name:</strong> <code>Tema06Vetores</code>
+            </div>
+            <div class="step">
+                <span class="step-number">4</span> Marque: <strong>✓ Create Main Class</strong>
+            </div>
+            <div class="step">
+                <span class="step-number">5</span> <strong>Main Class:</strong> <code>tema06.Main</code>
+            </div>
+            <div class="step">
+                <span class="step-number">6</span> Clique em <strong>Finish</strong>
+            </div>
+
+            <div class="tree">
+                📁 Tema06Vetores<br>
+                &nbsp;&nbsp;└── 📁 Source Packages<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 📁 tema06<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📄 Main.java
+            </div>
+
+            <div class="highlight tip">
+                💡 <strong>DICA:</strong> A Main.java pode ficar vazia. Vamos criar classes SEPARADAS para cada exemplo e desafio!
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📁 Como criar cada classe (exemplo ou desafio)</h2>
+            <div class="step">
+                <span class="step-number">1</span> Botão direito na pasta <strong>tema06</strong>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span> <strong>New → Java Class</strong>
+            </div>
+            <div class="step">
+                <span class="step-number">3</span> Digite o nome da classe (ex: <code>ExemploMedia</code>)
+            </div>
+            <div class="step">
+                <span class="step-number">4</span> Cole o código do exemplo ou desafio
+            </div>
+            <div class="step">
+                <span class="step-number">5</span> Execute: botão direito → <strong>Run File</strong> (ou Shift + F6)
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB: CONCEITOS -->
+    <!-- ============================================================ -->
+    <div id="conceitos" class="tab-content">
+        <div class="card">
+            <h2>📖 O que são Vetores e Matrizes?</h2>
+            <p><strong>Vetores</strong> e <strong>Matrizes</strong> são estruturas que permitem armazenar <strong>múltiplos valores</strong> do mesmo tipo em uma única variável.</p>
+
+            <div class="highlight info">
+                🎯 <strong>ANALOGIA PARA ENTENDER:</strong>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>📊 Vetor:</strong> Como uma <strong>fila de caixas</strong> numeradas. Cada caixa guarda um valor. Você acessa pelo número da caixa (índice).</li>
+                    <li><strong>📋 Matriz:</strong> Como uma <strong>tabela</strong> com linhas e colunas. Você acessa um valor pela linha e coluna.</li>
+                </ul>
+            </div>
+
+            <h3>🎯 Para que servem?</h3>
+            <ul style="margin-left: 30px; margin-bottom: 20px;">
+                <li>📊 Armazenar <strong>listas de dados</strong> (notas de alunos, temperaturas, etc.)</li>
+                <li>📋 Organizar dados em <strong>tabelas</strong> (planilhas, jogos, imagens)</li>
+                <li>🔄 Facilitar <strong>repetições</strong> (percorrer todos os elementos com loops)</li>
+                <li>📈 Resolver problemas <strong>matemáticos e estatísticos</strong></li>
+            </ul>
+
+            <h3>✅ Vantagens</h3>
+            <ul style="margin-left: 30px; margin-bottom: 20px;">
+                <li>⚡ <strong>Acesso rápido:</strong> qualquer elemento pelo índice</li>
+                <li>📦 <strong>Organização:</strong> dados agrupados de forma estruturada</li>
+                <li>🔄 <strong>Reutilização:</strong> mesma lógica para qualquer tamanho de array</li>
+            </ul>
+
+            <h3>⚠️ Desvantagens</h3>
+            <ul style="margin-left: 30px;">
+                <li>📏 <strong>Tamanho fixo:</strong> não cresce automaticamente</li>
+                <li>📊 <strong>Tipo único:</strong> só armazena um tipo de dado</li>
+            </ul>
+
+            <div class="highlight warning">
+                ⚠️ <strong>IMPORTANTE:</strong> Em Java, o primeiro elemento de um vetor está na <strong>posição 0 (ZERO)</strong>!
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB: VETORES -->
+    <!-- ============================================================ -->
+    <div id="vetores" class="tab-content">
+        <div class="card">
+            <h2>📊 Vetores (Arrays Unidimensionais)</h2>
+            <p>Um <strong>vetor</strong> é uma coleção de elementos do <strong>mesmo tipo</strong>, armazenados em posições sequenciais (índices).</p>
+
+            <h3>📝 Como declarar um vetor</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-declara')">📋 Copiar</button>
+                <pre id="code-declara"><code>// Três formas de declarar um vetor
+int[] numeros;        // Forma 1 (recomendada)
+int []numeros;        // Forma 2
+int numeros[];        // Forma 3</code></pre>
+            </div>
+
+            <h3>🏗️ Como instanciar (criar) um vetor</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-instancia')">📋 Copiar</button>
+                <pre id="code-instancia"><code>// Criar um vetor com 5 posições
+int[] numeros = new int[5];
+
+// Ou declarar e instanciar separadamente
+int[] idades;
+idades = new int[10];</code></pre>
+            </div>
+
+            <h3>✏️ Como inicializar um vetor</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-inicializa')">📋 Copiar</button>
+                <pre id="code-inicializa"><code>// Forma 1: posição por posição
+int[] numeros = new int[5];
+numeros[0] = 10;
+numeros[1] = 20;
+numeros[2] = 30;
+numeros[3] = 40;
+numeros[4] = 50;
+
+// Forma 2: direta (mais simples)
+int[] valores = {10, 20, 30, 40, 50};</code></pre>
+            </div>
+
+            <h3>🔍 Como acessar elementos</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-acessa')">📋 Copiar</button>
+                <pre id="code-acessa"><code>int[] numeros = {10, 20, 30, 40, 50};
+
+System.out.println(numeros[0]);  // 10
+System.out.println(numeros[2]);  // 30
+System.out.println(numeros[4]);  // 50
+
+// ATENÇÃO: O índice começa em ZERO!</code></pre>
+            </div>
+
+            <h3>📏 Como saber o tamanho</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-length')">📋 Copiar</button>
+                <pre id="code-length"><code>int[] numeros = {10, 20, 30, 40, 50};
+int tamanho = numeros.length;  // 5
+
+System.out.println("O vetor tem " + tamanho + " elementos");</code></pre>
+            </div>
+
+            <h3>🔄 Percorrendo com for</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-percorre')">📋 Copiar</button>
+                <pre id="code-percorre"><code>int[] numeros = {10, 20, 30, 40, 50};
+
+for (int i = 0; i < numeros.length; i++) {
+    System.out.println("Posição " + i + ": " + numeros[i]);
+}</code></pre>
+            </div>
+
+            <h3>🔄 Percorrendo com for-each (mais simples)</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-foreach')">📋 Copiar</button>
+                <pre id="code-foreach"><code>int[] numeros = {10, 20, 30, 40, 50};
+
+for (int valor : numeros) {
+    System.out.println(valor);
+}</code></pre>
+            </div>
+
+            <div class="highlight tip">
+                💡 <strong>DICA:</strong> Use <code>for-each</code> quando você só precisa <strong>ler</strong> os valores. Use <code>for</code> quando precisar <strong>modificar</strong> ou acessar pelo índice.
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB: MATRIZES -->
+    <!-- ============================================================ -->
+    <div id="matrizes" class="tab-content">
+        <div class="card">
+            <h2>📋 Matrizes (Arrays Multidimensionais)</h2>
+            <p>Uma <strong>matriz</strong> é um vetor de vetores. É como uma <strong>tabela</strong> com linhas e colunas.</p>
+
+            <h3>📝 Como declarar uma matriz</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-matriz-declara')">📋 Copiar</button>
+                <pre id="code-matriz-declara"><code>// Matriz 2D (3 linhas e 3 colunas)
+int[][] matriz = new int[3][3];</code></pre>
+            </div>
+
+            <h3>✏️ Como inicializar uma matriz</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-matriz-inicializa')">📋 Copiar</button>
+                <pre id="code-matriz-inicializa"><code>// Forma 1: posição por posição
+int[][] matriz = new int[3][3];
+matriz[0][0] = 1;
+matriz[0][1] = 2;
+matriz[0][2] = 3;
+matriz[1][0] = 4;
+matriz[1][1] = 5;
+matriz[1][2] = 6;
+matriz[2][0] = 7;
+matriz[2][1] = 8;
+matriz[2][2] = 9;
+
+// Forma 2: direta (mais simples)
+int[][] numeros = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+};</code></pre>
+            </div>
+
+            <h3>🔍 Como acessar elementos</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-matriz-acessa')">📋 Copiar</button>
+                <pre id="code-matriz-acessa"><code>int[][] numeros = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+};
+
+System.out.println(numeros[0][0]);  // 1 (linha 0, coluna 0)
+System.out.println(numeros[1][2]);  // 6 (linha 1, coluna 2)
+System.out.println(numeros[2][1]);  // 8 (linha 2, coluna 1)</code></pre>
+            </div>
+
+            <h3>🔄 Percorrendo uma matriz</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-matriz-percorre')">📋 Copiar</button>
+                <pre id="code-matriz-percorre"><code>int[][] numeros = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+};
+
+// Loop externo: linhas
+for (int i = 0; i < numeros.length; i++) {
+    // Loop interno: colunas
+    for (int j = 0; j < numeros[i].length; j++) {
+        System.out.print(numeros[i][j] + " ");
+    }
+    System.out.println();  // Pula linha
+}</code></pre>
+            </div>
+
+            <div class="highlight info">
+                📊 <strong>MATRIZ 3x3 ACIMA:</strong><br>
+                1 2 3<br>
+                4 5 6<br>
+                7 8 9
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB: EXEMPLOS -->
+    <!-- ============================================================ -->
+    <div id="exemplos" class="tab-content">
+        <div class="card">
+            <h2>💻 Exemplos Práticos</h2>
+
+            <!-- EXEMPLO 1 -->
+            <h3>📌 Exemplo 1: Média de notas com vetor</h3>
+
+            <div class="objetivo-box">
+                <strong>🎯 OBJETIVO:</strong> Aprender a <strong>armazenar notas</strong> em um vetor, <strong>percorrer</strong> seus elementos com for-each e <strong>calcular</strong> a média.
+            </div>
+
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-ex1')">📋 Copiar</button>
+                <pre id="code-ex1"><code>package tema06;
+
+public class ExemploMedia {
+    public static void main(String[] args) {
+        double[] notas = {7.5, 8.0, 6.5, 9.0, 8.5};
+        double soma = 0;
+
+        for (double nota : notas) {
+            soma += nota;
+        }
+
+        double media = soma / notas.length;
+        System.out.println("Média das notas: " + media);
+    }
+}</code></pre>
+            </div>
+
+            <!-- EXEMPLO 2 -->
+            <h3>📌 Exemplo 2: Maior valor em um vetor</h3>
+
+            <div class="objetivo-box">
+                <strong>🎯 OBJETIVO:</strong> Aprender a <strong>encontrar o maior valor</strong> dentro de um vetor, comparando elementos com <strong>if</strong>.
+            </div>
+
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-ex2')">📋 Copiar</button>
+                <pre id="code-ex2"><code>package tema06;
+
+public class ExemploMaior {
+    public static void main(String[] args) {
+        int[] numeros = {10, 45, 23, 78, 12, 56};
+        int maior = numeros[0];
+
+        for (int i = 1; i < numeros.length; i++) {
+            if (numeros[i] > maior) {
+                maior = numeros[i];
+            }
+        }
+
+        System.out.println("O maior valor é: " + maior);
+    }
+}</code></pre>
+            </div>
+
+            <!-- EXEMPLO 3 -->
+            <h3>📌 Exemplo 3: Soma de uma matriz</h3>
+
+            <div class="objetivo-box">
+                <strong>🎯 OBJETIVO:</strong> Aprender a <strong>percorrer uma matriz</strong> com <strong>loops aninhados</strong> (for dentro de for) e somar todos os elementos.
+            </div>
+
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-ex3')">📋 Copiar</button>
+                <pre id="code-ex3"><code>package tema06;
+
+public class ExemploMatrizSoma {
+    public static void main(String[] args) {
+        int[][] numeros = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+        int soma = 0;
+
+        for (int i = 0; i < numeros.length; i++) {
+            for (int j = 0; j < numeros[i].length; j++) {
+                soma += numeros[i][j];
+            }
+        }
+
+        System.out.println("Soma de todos os elementos: " + soma);
+    }
+}</code></pre>
+            </div>
+
+            <!-- EXEMPLO 4 -->
+            <h3>📌 Exemplo 4: Passando vetor para método</h3>
+
+            <div class="objetivo-box">
+                <strong>🎯 OBJETIVO:</strong> Aprender a <strong>reutilizar código</strong> criando um método que recebe um vetor como parâmetro e processa seus dados.
+            </div>
+
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-ex4')">📋 Copiar</button>
+                <pre id="code-ex4"><code>package tema06;
+
+public class ExemploMetodo {
+    public static void main(String[] args) {
+        int[] valores = {10, 20, 30, 40, 50};
+        int soma = somar(valores);
+        System.out.println("Soma: " + soma);
+    }
+
+    public static int somar(int[] vetor) {
+        int total = 0;
+        for (int valor : vetor) {
+            total += valor;
+        }
+        return total;
+    }
+}</code></pre>
+            </div>
+
+            <div class="highlight success">
+                🎯 <strong>RELEVÂNCIA:</strong> Esses exemplos mostram situações reais onde vetores e matrizes são essenciais!
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TAB: DESAFIOS -->
+    <!-- ============================================================ -->
+    <div id="desafios" class="tab-content">
+        <div class="card">
+            <h2>🏆 Desafios Práticos</h2>
+
+            <div class="highlight info">
+                🎯 <strong>INSTRUÇÕES:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li>Crie uma classe separada para cada desafio no pacote <strong>tema06</strong></li>
+                    <li>Aplique os conceitos de vetores e matrizes</li>
+                    <li>📸 Tire print do código e do resultado de cada desafio</li>
+                </ul>
+            </div>
+
+            <!-- DESAFIO 1 -->
+            <h3 style="margin-top: 20px;">🧩 Desafio 1: Soma de Vetor</h3>
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioSomaVetor.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie um vetor com <strong>5 números</strong> inteiros
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Use um <strong>loop for</strong> para somar todos os elementos
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Exiba o <strong>resultado da soma</strong>
+            </div>
+
+            <div class="exemplo-saida">
+📥 Vetor: [10, 20, 30, 40, 50]<br>
+📤 Saída: Soma = 150
+            </div>
+
+            <!-- DESAFIO 2 -->
+            <h3 style="margin-top: 25px;">🧩 Desafio 2: Notas dos Alunos</h3>
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioNotas.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie um vetor com <strong>6 notas</strong> (double)
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Calcule a <strong>média</strong> das notas
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Exiba a <strong>média</strong> e quantas notas são <strong>acima da média</strong>
+            </div>
+
+            <!-- DESAFIO 3 -->
+            <h3 style="margin-top: 25px;">🧩 Desafio 3: Matriz 3x3</h3>
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioMatriz.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie uma <strong>matriz 3x3</strong> com números inteiros
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Use <strong>loops aninhados</strong> para exibir a matriz formatada
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Calcule e exiba a <strong>soma de cada linha</strong>
+            </div>
+
+            <div class="exemplo-saida">
+📥 Matriz:<br>
+1 2 3<br>
+4 5 6<br>
+7 8 9<br>
+📤 Saída:<br>
+Soma linha 1: 6<br>
+Soma linha 2: 15<br>
+Soma linha 3: 24
+            </div>
+
+            <!-- DESAFIO 4 -->
+            <h3 style="margin-top: 25px;">🧩 Desafio 4: Temperaturas</h3>
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioTemperatura.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie um vetor com <strong>7 temperaturas</strong> (double)
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Encontre a <strong>maior</strong> e a <strong>menor</strong> temperatura
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Calcule a <strong>temperatura média</strong>
+            </div>
+
+            <!-- DESAFIO 5 -->
+            <h3 style="margin-top: 25px;">🧩 Desafio 5: Tabuada com Matriz</h3>
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioTabuada.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie uma <strong>matriz 10x10</strong> com a tabuada (1 a 10)
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Use <strong>loops aninhados</strong> para preencher e exibir
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída:<br>
+1  2  3  4  5  6  7  8  9  10<br>
+2  4  6  8  10 12 14 16 18 20<br>
+3  6  9  12 15 18 21 24 27 30<br>
+... e assim por diante
+            </div>
+        </div>
+
+        <!-- CHECKLIST -->
+        <div class="card">
+            <h2>✅ Checklist de Entrega</h2>
+
+            <div class="step">
+                <span class="step-number">📁</span> Criei as classes no pacote <strong>tema06</strong>:
+                <ul style="margin-left: 30px; margin-top: 8px;">
+                    <li><code>DesafioSomaVetor.java</code></li>
+                    <li><code>DesafioNotas.java</code></li>
+                    <li><code>DesafioMatriz.java</code></li>
+                    <li><code>DesafioTemperatura.java</code></li>
+                    <li><code>DesafioTabuada.java</code></li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <span class="step-number">📸</span> Tirei print do <strong>código</strong> de cada desafio
+            </div>
+
+            <div class="step">
+                <span class="step-number">📸</span> Tirei print do <strong>resultado</strong> (saída no console) de cada desafio
+            </div>
+
+            <div class="step">
+                <span class="step-number">📤</span> Salvei os arquivos no repositório <strong>java6</strong>
+            </div>
+
+            <div class="highlight success" style="margin-top: 15px;">
+                📤 <strong>Entregar:</strong> Prints do código e resultado de cada desafio + link do repositório <strong>java6</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- FOOTER COM FORMULÁRIO (CORRIGIDO - CONTRASTE) -->
+    <!-- ============================================================ -->
+    <div class="footer">
+        <div class="form-box">
+            <div class="icon-text">📋</div>
+            <strong style="color: #1a1a2e;">Formulário para entrega das atividades (desafios 1 a 5) e relatório da aula:</strong><br>
+            <a href="https://forms.gle/zbUB57A4FteUDsKSA" target="_blank">https://forms.gle/zbUB57A4FteUDsKSA</a>
+        </div>
+
+        <div class="delivery-box">
+            <div class="icon-text">📤</div>
+            <strong style="color: #155724;">ENTREGA:</strong><br>
+            <span style="color: #155724;">Prints do <strong>código</strong> e <strong>resultado</strong> de cada desafio + link do repositório <code style="background: white; padding: 2px 8px; border-radius: 4px; color: #28a745;">java6</code></span>
+        </div>
+
+        <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
+
+        <p style="color: #1a1a2e;">📚 TEMA 06 - Vetores e Matrizes | Java</p>
+        <p style="color: #1a1a2e;">🎯 Aprenda a armazenar e organizar dados com vetores e matrizes!</p>
+    </div>
+</div>
+
+<button class="btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Topo</button>
+
+<script>
+    // Sistema de abas
+    const tabLinks = document.querySelectorAll('.tab-link');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const tabId = link.getAttribute('data-tab');
+            tabLinks.forEach(l => l.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            link.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // Função de copiar código
+    function copyCode(btn, elementId) {
+        const codeElement = document.getElementById(elementId);
+        const textToCopy = codeElement.innerText;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Copiado!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+        }).catch(() => {
+            btn.innerHTML = '❌ Erro';
+            setTimeout(() => btn.innerHTML = '📋 Copiar', 2000);
+        });
+    }
+</script>
+</body>
+</html>

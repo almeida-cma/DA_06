@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sugestões de Resolução - Vetores e Matrizes | Java</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 40px;
+        }
+
+        .tab-link {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .tab-link:hover {
+            background: rgba(255,255,255,0.4);
+        }
+
+        .tab-link.active {
+            background: #11998e;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #11998e;
+            margin-bottom: 15px;
+            border-left: 5px solid #11998e;
+            padding-left: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card h3 {
+            color: #0d7a6b;
+            margin: 18px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .card h4 {
+            color: #2c5364;
+            margin: 12px 0 8px 0;
+            font-size: 1rem;
+        }
+
+        .step {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            border-left: 4px solid #11998e;
+            font-size: 0.95rem;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #11998e;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .code-block {
+            position: relative;
+            background: #1e1e2e;
+            color: #c9d1d9;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: #11998e;
+            color: white;
+            border: none;
+            padding: 3px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 10px;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #0d7a6b;
+        }
+
+        .copy-btn.copied {
+            background: #28a745;
+        }
+
+        .highlight {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+
+        .exemplo-saida {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-family: monospace;
+            font-size: 12px;
+            margin: 5px 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checklist-item label {
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .btn-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #11998e;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            border-radius: 18px;
+            margin-top: 20px;
+        }
+
+        .footer p {
+            color: #1a1a2e;
+        }
+
+        .form-box {
+            background: #e7f3ff;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #2196f3;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .form-box a {
+            color: #2196f3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form-box a:hover {
+            text-decoration: underline;
+        }
+
+        .icon-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #1a1a2e;
+        }
+
+        .delivery-box {
+            background: #d4edda;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #28a745;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .delivery-box code {
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .delivery-box .icon-text {
+            color: #155724;
+        }
+
+        .objetivo-box {
+            background: #e8f5e9;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-left: 4px solid #11998e;
+        }
+
+        .objetivo-box strong {
+            color: #0d7a6b;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        hr {
+            margin: 15px 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .card { padding: 18px; }
+            .header h1 { font-size: 1.3rem; }
+            .tab-link { padding: 6px 12px; font-size: 0.7rem; }
+            .header { padding: 25px; }
+            .footer { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🏆 Sugestões de Resolução</h1>
+        <p>Desafios - Vetores e Matrizes em Java</p>
+        <div class="badge-group">
+            <span class="badge">📝 5 desafios</span>
+            <span class="badge">📋 Códigos prontos</span>
+            <span class="badge">📋 Copiar e colar</span>
+        </div>
+    </div>
+
+    <!-- NAVEGAÇÃO -->
+    <div class="nav-tabs">
+        <button class="tab-link active" data-tab="d1">🧩 DESAFIO 1</button>
+        <button class="tab-link" data-tab="d2">🧩 DESAFIO 2</button>
+        <button class="tab-link" data-tab="d3">🧩 DESAFIO 3</button>
+        <button class="tab-link" data-tab="d4">🧩 DESAFIO 4</button>
+        <button class="tab-link" data-tab="d5">🧩 DESAFIO 5</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 1: SOMA DE VETOR -->
+    <!-- ============================================================ -->
+    <div id="d1" class="tab-content active">
+        <div class="card">
+            <h2>🧩 Desafio 1: Soma de Vetor</h2>
+
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioSomaVetor.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie um vetor com <strong>5 números</strong> inteiros
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Use um <strong>loop for</strong> para somar todos os elementos
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Exiba o <strong>resultado da soma</strong>
+            </div>
+
+            <div class="objetivo-box">
+                <strong>🎯 OBJETIVO:</strong> Praticar a <strong>declaração</strong> de vetores, o <strong>percurso</strong> com for e o <strong>acúmulo</strong> de valores.
+            </div>
+
+            <div class="exemplo-saida">
+📥 Vetor: [10, 20, 30, 40, 50]<br>
+📤 Saída: Soma = 150
+            </div>
+
+            <h3 style="margin-top: 20px;">📝 Código Sugerido:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-d1')">📋 Copiar</button>
+                <pre id="code-d1"><code>package tema06;
+
+public class DesafioSomaVetor {
+    public static void main(String[] args) {
+        // Declarando e inicializando o vetor
+        int[] numeros = {10, 20, 30, 40, 50};
+        int soma = 0;
+
+        // Percorrendo o vetor com for
+        for (int i = 0; i < numeros.length; i++) {
+            soma += numeros[i];
+        }
+
+        System.out.println("Soma: " + soma);
+    }
+}</code></pre>
+            </div>
+
+            <div class="highlight tip">
+                💡 <strong>DICA:</strong> Use <code>numeros.length</code> para obter o tamanho do vetor, assim o código funciona para qualquer quantidade de elementos.
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 2: NOTAS DOS ALUNOS -->
+    <!-- ============================================================ -->
+    <div id="d2" class="tab-content">
+        <div class="card">
+            <h2>🧩 Desafio 2: Notas dos Alunos</h2>
+
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioNotas.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie um vetor com <strong>6 notas</strong> (double)
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Calcule a <strong>média</strong> das notas
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Exiba a <strong>média</strong> e quantas notas são <strong>acima da média</strong>
+            </div>
+
+            <div class="objetivo-box">
+                <strong>🎯 OBJETIVO:</strong> Praticar o cálculo de <strong>média</strong> com vetor de doubles e a <strong>contagem</strong> de elementos que atendem a uma condição.
+            </div>
+
+            <div class="exemplo-saida">
+📥 Notas: [7.5, 8.0, 6.5, 9.0, 8.5, 7.0]<br>
+📤 Saída: Média = 7.75 | Notas acima da média: 3
+            </div>
+
+            <h3 style="margin-top: 20px;">📝 Código Sugerido:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-d2')">📋 Copiar</button>
+                <pre id="code-d2"><code>package tema06;
+
+public class DesafioNotas {
+    public static void main(String[] args) {
+        // Declarando e inicializando o vetor de notas
+        double[] notas = {7.5, 8.0, 6.5, 9.0, 8.5, 7.0};
+        double soma = 0;
+        int acimaMedia = 0;
+
+        // Calculando a soma
+        for (double nota : notas) {
+            soma += nota;
+        }
+
+        // Calculando a média
+        double media = soma / notas.length;
+        System.out.println("Média: " + media);
+
+        // Contando notas acima da média
+        for (double nota : notas) {
+            if (nota > media) {
+                acimaMedia++;
+            }
+        }
+
+        System.out.println("Notas acima da média: " + acimaMedia);
+    }
+}</code></pre>
+            </div>
+
+            <div class="highlight tip">
+                💡 <strong>DICA:</strong> Use <code>for-each</code> quando você só precisa <strong>ler</strong> os valores do vetor. É mais simples e legível!
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 3: MATRIZ 3x3 -->
+    <!-- ============================================================ -->
+    <div id="d3" class="tab-content">
+        <div class="card">
+            <h2>🧩 Desafio 3: Matriz 3x3</h2>
+
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioMatriz.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie uma <strong>matriz 3x3</strong> com números inteiros
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Use <strong>loops aninhados</strong> para exibir a matriz formatada
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Calcule e exiba a <strong>soma de cada linha</strong>
+            </div>
+
+            <div class="objetivo-box">
+                <strong>🎯 OBJETIVO:</strong> Praticar a <strong>declaração</strong> e <strong>percurso</strong> de matrizes com <strong>loops aninhados</strong> (for dentro de for).
+            </div>
+
+            <div class="exemplo-saida">
+📥 Matriz:<br>
+1 2 3<br>
+4 5 6<br>
+7 8 9<br>
+📤 Saída:<br>
+Soma linha 1: 6<br>
+Soma linha 2: 15<br>
+Soma linha 3: 24
+            </div>
+
+            <h3 style="margin-top: 20px;">📝 Código Sugerido:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-d3')">📋 Copiar</button>
+                <pre id="code-d3"><code>package tema06;
+
+public class DesafioMatriz {
+    public static void main(String[] args) {
+        // Declarando e inicializando a matriz 3x3
+        int[][] matriz = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+
+        System.out.println("Matriz:");
+        // Percorrendo a matriz
+        for (int i = 0; i < matriz.length; i++) {
+            int soma = 0;
+
+            for (int j = 0; j < matriz[i].length; j++) {
+                System.out.print(matriz[i][j] + " ");
+                soma += matriz[i][j];
+            }
+
+            System.out.println(" → Soma: " + soma);
+        }
+    }
+}</code></pre>
+            </div>
+
+            <div class="highlight tip">
+                💡 <strong>DICA:</strong> <code>matriz.length</code> dá o número de <strong>linhas</strong>. <code>matriz[i].length</code> dá o número de <strong>colunas</strong> da linha i.
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 4: TEMPERATURAS -->
+    <!-- ============================================================ -->
+    <div id="d4" class="tab-content">
+        <div class="card">
+            <h2>🧩 Desafio 4: Temperaturas</h2>
+
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioTemperatura.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie um vetor com <strong>7 temperaturas</strong> (double)
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Encontre a <strong>maior</strong> e a <strong>menor</strong> temperatura
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Calcule a <strong>temperatura média</strong>
+            </div>
+
+            <div class="objetivo-box">
+                <strong>🎯 OBJETIVO:</strong> Praticar a <strong>busca</strong> pelo maior e menor valor em um vetor, além do cálculo de <strong>média</strong>.
+            </div>
+
+            <div class="exemplo-saida">
+📥 Temperaturas: [23.5, 25.0, 19.5, 27.0, 22.0, 24.5, 26.0]<br>
+📤 Saída: Maior = 27.0 | Menor = 19.5 | Média = 23.93
+            </div>
+
+            <h3 style="margin-top: 20px;">📝 Código Sugerido:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-d4')">📋 Copiar</button>
+                <pre id="code-d4"><code>package tema06;
+
+public class DesafioTemperatura {
+    public static void main(String[] args) {
+        // Declarando e inicializando o vetor de temperaturas
+        double[] temperaturas = {23.5, 25.0, 19.5, 27.0, 22.0, 24.5, 26.0};
+        double soma = 0;
+        double maior = temperaturas[0];
+        double menor = temperaturas[0];
+
+        // Percorrendo o vetor
+        for (double temp : temperaturas) {
+            soma += temp;
+
+            if (temp > maior) {
+                maior = temp;
+            }
+
+            if (temp < menor) {
+                menor = temp;
+            }
+        }
+
+        double media = soma / temperaturas.length;
+
+        System.out.println("Maior temperatura: " + maior);
+        System.out.println("Menor temperatura: " + menor);
+        System.out.printf("Média: %.2f\n", media);
+    }
+}</code></pre>
+            </div>
+
+            <div class="highlight tip">
+                💡 <strong>DICA:</strong> Inicialize <code>maior</code> e <code>menor</code> com o primeiro elemento do vetor. Depois compare com os demais.
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 5: TABUADA COM MATRIZ -->
+    <!-- ============================================================ -->
+    <div id="d5" class="tab-content">
+        <div class="card">
+            <h2>🧩 Desafio 5: Tabuada com Matriz</h2>
+
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioTabuada.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Crie uma <strong>matriz 10x10</strong> com a tabuada (1 a 10)
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Use <strong>loops aninhados</strong> para preencher e exibir
+            </div>
+
+            <div class="objetivo-box">
+                <strong>🎯 OBJETIVO:</strong> Praticar a <strong>criação</strong> e <strong>preenchimento</strong> de uma matriz com <strong>loops aninhados</strong>, gerando a tabuada.
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída:<br>
+1  2  3  4  5  6  7  8  9  10<br>
+2  4  6  8  10 12 14 16 18 20<br>
+3  6  9  12 15 18 21 24 27 30<br>
+... e assim por diante
+            </div>
+
+            <h3 style="margin-top: 20px;">📝 Código Sugerido:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-d5')">📋 Copiar</button>
+                <pre id="code-d5"><code>package tema06;
+
+public class DesafioTabuada {
+    public static void main(String[] args) {
+        // Declarando a matriz 10x10
+        int[][] tabuada = new int[10][10];
+
+        // Preenchendo a matriz com a tabuada
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                tabuada[i][j] = (i + 1) * (j + 1);
+            }
+        }
+
+        // Exibindo a matriz formatada
+        System.out.println("TABUADA 1 a 10:\n");
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                // Formatação para alinhar os números
+                System.out.printf("%4d", tabuada[i][j]);
+            }
+            System.out.println(); // Pula linha
+        }
+    }
+}</code></pre>
+            </div>
+
+            <div class="highlight tip">
+                💡 <strong>DICA:</strong> Use <code>System.out.printf("%4d", valor)</code> para alinhar os números com 4 espaços, deixando a saída mais bonita!
+            </div>
+
+            <div class="highlight success">
+                🎯 <strong>RELEVÂNCIA:</strong> Este desafio mostra como matrizes podem ser usadas para gerar e armazenar dados estruturados, como uma tabela de tabuada.
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHECKLIST E INSTRUÇÕES -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>📋 Instruções de Entrega</h2>
+
+        <div class="step">
+            <span class="step-number">📁</span> Crie cada classe no pacote <strong>tema06</strong> do projeto <strong>Tema06Vetores</strong>
+        </div>
+        <div class="step">
+            <span class="step-number">📁</span> Copie e cole o código sugerido para cada desafio
+        </div>
+        <div class="step">
+            <span class="step-number">▶️</span> Execute cada classe com <strong>Run File</strong> (Shift + F6)
+        </div>
+
+        <h3 style="margin-top: 20px;">✅ Checklist de Entrega</h3>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check1">
+            <label for="check1"><code>DesafioSomaVetor.java</code> - Soma de Vetor</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check2">
+            <label for="check2"><code>DesafioNotas.java</code> - Notas dos Alunos</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check3">
+            <label for="check3"><code>DesafioMatriz.java</code> - Matriz 3x3</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check4">
+            <label for="check4"><code>DesafioTemperatura.java</code> - Temperaturas</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check5">
+            <label for="check5"><code>DesafioTabuada.java</code> - Tabuada com Matriz</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check6">
+            <label for="check6">📸 Tirei print do <strong>código</strong> de cada desafio</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check7">
+            <label for="check7">📸 Tirei print do <strong>resultado</strong> (saída no console) de cada desafio</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check8">
+            <label for="check8">📤 Salvei os arquivos no repositório <strong>java6</strong></label>
+        </div>
+
+        <div class="highlight success" style="margin-top: 15px;">
+            📤 <strong>Entregar:</strong> Prints do código e resultado de cada desafio + link do repositório <strong>java6</strong>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- FOOTER COM FORMULÁRIO -->
+    <!-- ============================================================ -->
+    <div class="footer">
+        <div class="form-box">
+            <div class="icon-text">📋</div>
+            <strong style="color: #1a1a2e;">Formulário para entrega das atividades (desafios 1 a 5) e relatório da aula:</strong><br>
+            <a href="https://forms.gle/zbUB57A4FteUDsKSA" target="_blank">https://forms.gle/zbUB57A4FteUDsKSA</a>
+        </div>
+
+        <div class="delivery-box">
+            <div class="icon-text">📤</div>
+            <strong style="color: #155724;">ENTREGA:</strong><br>
+            <span style="color: #155724;">Prints do <strong>código</strong> e <strong>resultado</strong> de cada desafio + link do repositório <code style="background: white; padding: 2px 8px; border-radius: 4px; color: #28a745;">java6</code></span>
+        </div>
+
+        <hr style="margin: 15px 0; border: none; border-top: 1px solid #ddd;">
+
+        <p style="color: #1a1a2e;">📚 TEMA 06 - Vetores e Matrizes | Java</p>
+        <p style="color: #1a1a2e;">🎯 Pratique cada desafio e consulte as resoluções para fixar o aprendizado!</p>
+    </div>
+</div>
+
+<button class="btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Topo</button>
+
+<script>
+    // Sistema de abas
+    const tabLinks = document.querySelectorAll('.tab-link');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const tabId = link.getAttribute('data-tab');
+            tabLinks.forEach(l => l.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            link.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // Função de copiar código
+    function copyCode(btn, elementId) {
+        const codeElement = document.getElementById(elementId);
+        const textToCopy = codeElement.innerText;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Copiado!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+        }).catch(() => {
+            btn.innerHTML = '❌ Erro';
+            setTimeout(() => btn.innerHTML = '📋 Copiar', 2000);
+        });
+    }
+</script>
+</body>
+</html>
