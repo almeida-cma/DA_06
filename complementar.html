@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade Rápida - Vetores e Matrizes em Java</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #11998e;
+            margin-bottom: 15px;
+            border-left: 5px solid #11998e;
+            padding-left: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card h3 {
+            color: #0d7a6b;
+            margin: 18px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .step {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid #11998e;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #11998e;
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 26px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .code-block {
+            position: relative;
+            background: #1e1e2e;
+            color: #c9d1d9;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 12px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #11998e;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .copy-btn:hover {
+            background: #0d7a6b;
+        }
+
+        .copy-btn.copied {
+            background: #28a745;
+        }
+
+        .highlight {
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 12px 0;
+            font-size: 14px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+
+        .warning {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .question {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px 18px;
+            margin-bottom: 15px;
+            border-left: 4px solid #0d7a6b;
+        }
+
+        .question-number {
+            display: inline-block;
+            background: #11998e;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .question-text {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .question-text code {
+            background: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .answer-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            margin-top: 8px;
+            background: #fafafa;
+        }
+
+        .answer-input:focus {
+            border-color: #11998e;
+            outline: none;
+            background: white;
+        }
+
+        .answer-input.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .answer-input.wrong {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(17,153,142,0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .result-box {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 3px solid #11998e;
+            display: none;
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #11998e;
+        }
+
+        .feedback-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        .feedback-item.correct {
+            color: #28a745;
+        }
+
+        .feedback-item.wrong {
+            color: #dc3545;
+        }
+
+        .github-box {
+            background: #24292e;
+            color: white;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+
+        .github-box code {
+            color: #f1c40f;
+        }
+
+        .btn-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #11998e;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255,255,255,0.7);
+            font-size: 12px;
+        }
+
+        .saida-esperada {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .card { padding: 18px; }
+            .header h1 { font-size: 1.4rem; }
+            .question { padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🧪 Atividade Rápida - Vetores e Matrizes</h1>
+        <p>Teste seus conhecimentos sobre arrays em Java</p>
+        <div class="badge-group">
+            <span class="badge">📝 10 testes rápidos</span>
+            <span class="badge">⏱️ ~15 minutos</span>
+            <span class="badge">🎯 Vetores | Matrizes | length | Loops</span>
+        </div>
+    </div>
+
+    <!-- PASSO 1: CRIAR A CLASSE -->
+    <div class="card">
+        <h2>📋 Passo 1: Criar a classe no NetBeans</h2>
+        <div class="step">
+            <span class="step-number">1</span> No projeto <strong>Tema06Vetores</strong>, clique com botão direito na pasta <strong>tema06</strong>
+        </div>
+        <div class="step">
+            <span class="step-number">2</span> <strong>New → Java Class</strong>
+        </div>
+        <div class="step">
+            <span class="step-number">3</span> Nome: <strong>TestesRapidos</strong> → <strong>Finish</strong>
+        </div>
+        <div class="step">
+            <span class="step-number">4</span> Copie o código abaixo para a classe:
+        </div>
+
+        <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this, 'code-base')">📋 Copiar</button>
+            <pre id="code-base"><code>package tema06;
+
+public class TestesRapidos {
+    public static void main(String[] args) {
+        // ================================================
+        // TESTES RÁPIDOS - VETORES E MATRIZES EM JAVA
+        // Complete os testes abaixo substituindo os "???"
+        // ================================================
+        
+        System.out.println("=== TESTES RÁPIDOS - VETORES E MATRIZES ===\n");
+        
+        // TESTE 1: Declarar vetor com 5 posições
+        int[] numeros = ???;  // Complete para criar vetor com 5 posições
+        System.out.println("1. Tamanho do vetor: " + numeros.length);
+        
+        // TESTE 2: Acessar primeiro elemento (posição 0)
+        int[] valores = {10, 20, 30, 40, 50};
+        int primeiro = ???;  // Pegue o primeiro elemento (posição 0)
+        System.out.println("2. Primeiro elemento: " + primeiro);
+        
+        // TESTE 3: length - tamanho do vetor
+        int[] notas = {7, 8, 9, 10};
+        int tamanho = ???;  // Use length para pegar o tamanho
+        System.out.println("3. Tamanho do vetor: " + tamanho);
+        
+        // TESTE 4: Soma de elementos
+        int[] somaVetor = {5, 10, 15, 20};
+        int soma = 0;
+        for (int valor : somaVetor) {
+            soma = ???;  // Complete para somar os valores
+        }
+        System.out.println("4. Soma: " + soma);
+        
+        // TESTE 5: Declarar matriz 3x3
+        int[][] matriz = ???;  // Complete para criar matriz 3x3
+        System.out.println("5. Número de linhas: " + matriz.length);
+        
+        // TESTE 6: Acessar elemento da matriz
+        int[][] m = {{1, 2, 3}, {4, 5, 6}};
+        int elemento = ???;  // Pegue o elemento da linha 0, coluna 2 (valor 3)
+        System.out.println("6. Elemento [0][2]: " + elemento);
+        
+        // TESTE 7: Inicializar matriz 2x2
+        int[][] matriz2 = {
+            {1, 2},
+            ???  // Complete para criar segunda linha {3, 4}
+        };
+        System.out.println("7. Elemento [1][1]: " + matriz2[1][1]);
+        
+        // TESTE 8: Percorrer vetor com for
+        int[] idades = {18, 22, 25, 30};
+        System.out.print("8. Idades: ");
+        for (int i = 0; i < idades.length; i++) {
+            System.out.print(idades[i] + " ");
+        }
+        System.out.println();
+        
+        // TESTE 9: Percorrer vetor com for-each
+        int[] precos = {100, 200, 300};
+        System.out.print("9. Preços: ");
+        for (int preco : precos) {
+            System.out.print(preco + " ");
+        }
+        System.out.println();
+        
+        // TESTE 10: Percorrer matriz com loops aninhados
+        int[][] matriz3 = {{1, 2}, {3, 4}};
+        System.out.print("10. Matriz: ");
+        for (int i = 0; i < matriz3.length; i++) {
+            for (int j = 0; j < matriz3[i].length; j++) {
+                System.out.print(matriz3[i][j] + " ");
+            }
+        }
+        System.out.println();
+    }
+}</code></pre>
+        </div>
+
+        <div class="highlight info">
+            💡 <strong>DICA:</strong> Execute a classe após completar cada teste para ver se está funcionando!<br>
+            Botão direito no arquivo → <strong>Run File</strong> (ou Shift + F6)
+        </div>
+
+        <div class="highlight success">
+            📤 <strong>SAÍDA ESPERADA APÓS COMPLETAR O CÓDIGO:</strong>
+            <div class="saida-esperada">
+=== TESTES RÁPIDOS - VETORES E MATRIZES ===
+
+1. Tamanho do vetor: 5
+2. Primeiro elemento: 10
+3. Tamanho do vetor: 4
+4. Soma: 50
+5. Número de linhas: 3
+6. Elemento [0][2]: 3
+7. Elemento [1][1]: 4
+8. Idades: 18 22 25 30 
+9. Preços: 100 200 300 
+10. Matriz: 1 2 3 4 
+            </div>
+        </div>
+    </div>
+
+    <!-- PASSO 2: TESTES -->
+    <div class="card" id="testes">
+        <h2>✏️ Passo 2: Responda os testes</h2>
+        <p>Complete os testes no código e execute. Depois, preencha as caixas abaixo com a <strong>resposta exata</strong> que apareceu no console.</p>
+        <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">Exemplo: Se o console exibir <code>5</code>, digite <code>5</code>.</p>
+
+        <!-- Teste 1 -->
+        <div class="question">
+            <div class="question-text">
+                <span class="question-number">1</span>
+                <strong>Declaração de vetor</strong> - Qual o valor impresso?
+            </div>
+            <div style="background: #f0f0f0; padding: 8px 12px; border-radius: 8px; font-family: monospace; font-size: 13px; margin: 5px 0;">
+                System.out.println("1. Tamanho do vetor: " + numeros.length);
+            </div>
+            <input type="text" class="answer-input" id="resp1" placeholder="Digite a resposta exata...">
+        </div>
+
+        <!-- Teste 2 -->
+        <div class="question">
+            <div class="question-text">
+                <span class="question-number">2</span>
+                <strong>Primeiro elemento</strong> - Qual o valor impresso?
+            </div>
+            <div style="background: #f0f0f0; padding: 8px 12px; border-radius: 8px; font-family: monospace; font-size: 13px; margin: 5px 0;">
+                System.out.println("2. Primeiro elemento: " + primeiro);
+            </div>
+            <input type="text" class="answer-input" id="resp2" placeholder="Digite a resposta exata...">
+        </div>
+
+        <!-- Teste 3 -->
+        <div class="question">
+            <div class="question-text">
+                <span class="question-number">3</span>
+                <strong>length</strong> - Qual o valor impresso?
+            </div>
+            <div style="background: #f0f0f0; padding: 8px 12px; border-radius: 8px; font-family: monospace; font-size: 13px; margin: 5px 0;">
+                System.out.println("3. Tamanho do vetor: " + tamanho);
+            </div>
+            <input type="text" class="answer-input" id="resp3" placeholder="Digite a resposta exata...">
+        </div>
+
+        <!-- Teste 4 -->
+        <div class="question">
+            <div class="question-text">
+                <span class="question-number">4</span>
+                <strong>Soma</strong> - Qual o valor impresso?
+            </div>
+            <div style="background: #f0f0f0; padding: 8px 12px; border-radius: 8px; font-family: monospace; font-size: 13px; margin: 5px 0;">
+                System.out.println("4. Soma: " + soma);
+            </div>
+            <input type="text" class="answer-input" id="resp4" placeholder="Digite a resposta exata...">
+        </div>
+
+        <!-- Teste 5 -->
+        <div class="question">
+            <div class="question-text">
+                <span class="question-number">5</span>
+                <strong>Matriz 3x3</strong> - Qual o valor impresso?
+            </div>
+            <div style="background: #f0f0f0; padding: 8px 12px; border-radius: 8px; font-family: monospace; font-size: 13px; margin: 5px 0;">
+                System.out.println("5. Número de linhas: " + matriz.length);
+            </div>
+            <input type="text" class="answer-input" id="resp5" placeholder="Digite a resposta exata...">
+        </div>
+
+        <!-- Teste 6 -->
+        <div class="question">
+            <div class="question-text">
+                <span class="question-number">6</span>
+                <strong>Elemento da matriz</strong> - Qual o valor impresso?
+            </div>
+            <div style="background: #f0f0f0; padding: 8px 12px; border-radius: 8px; font-family: monospace; font-size: 13px; margin: 5px 0;">
+                System.out.println("6. Elemento [0][2]: " + elemento);
+            </div>
+            <input type="text" class="answer-input" id="resp6" placeholder="Digite a resposta exata...">
+        </div>
+
+        <!-- Teste 7 -->
+        <div class="question">
+            <div class="question-text">
+                <span class="question-number">7</span>
+                <strong>Matriz 2x2</strong> - Qual o valor impresso?
+            </div>
+            <div style="background: #f0f0f0; padding: 8px 12px; border-radius: 8px; font-family: monospace; font-size: 13px; margin: 5px 0;">
+                System.out.println("7. Elemento [1][1]: " + matriz2[1][1]);
+            </div>
+            <input type="text" class="answer-input" id="resp7" placeholder="Digite a resposta exata...">
+        </div>
+
+        <!-- Teste 8 -->
+        <div class="question">
+            <div class="question-text">
+                <span class="question-number">8</span>
+                <strong>for</strong> - Qual foi a saída completa?
+            </div>
+            <div style="background: #f0f0f0; padding: 8px 12px; border-radius: 8px; font-family: monospace; font-size: 13px; margin: 5px 0;">
+                System.out.print("8. Idades: ");
+                for (int i = 0; i < idades.length; i++) {
+                    System.out.print(idades[i] + " ");
+                }
+            </div>
+            <input type="text" class="answer-input" id="resp8" placeholder="Digite a resposta exata...">
+        </div>
+
+        <!-- Teste 9 -->
+        <div class="question">
+            <div class="question-text">
+                <span class="question-number">9</span>
+                <strong>for-each</strong> - Qual foi a saída completa?
+            </div>
+            <div style="background: #f0f0f0; padding: 8px 12px; border-radius: 8px; font-family: monospace; font-size: 13px; margin: 5px 0;">
+                System.out.print("9. Preços: ");
+                for (int preco : precos) {
+                    System.out.print(preco + " ");
+                }
+            </div>
+            <input type="text" class="answer-input" id="resp9" placeholder="Digite a resposta exata...">
+        </div>
+
+        <!-- Teste 10 -->
+        <div class="question">
+            <div class="question-text">
+                <span class="question-number">10</span>
+                <strong>Matriz com loops aninhados</strong> - Qual foi a saída completa?
+            </div>
+            <div style="background: #f0f0f0; padding: 8px 12px; border-radius: 8px; font-family: monospace; font-size: 13px; margin: 5px 0;">
+                System.out.print("10. Matriz: ");
+                for (int i = 0; i < matriz3.length; i++) {
+                    for (int j = 0; j < matriz3[i].length; j++) {
+                        System.out.print(matriz3[i][j] + " ");
+                    }
+                }
+            </div>
+            <input type="text" class="answer-input" id="resp10" placeholder="Digite a resposta exata...">
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn" onclick="corrigirTestes()">✅ Finalizar e Corrigir</button>
+            <button class="btn btn-secondary" onclick="limparRespostas()">🔄 Limpar respostas</button>
+        </div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div class="card result-box" id="resultado">
+        <h2>📊 Resultado da Atividade</h2>
+        <div class="score" id="pontuacao">0/10</div>
+        <p style="margin: 10px 0;">Respostas corretas:</p>
+        <div id="feedback"></div>
+        <div style="margin-top: 20px;">
+            <button class="btn btn-success" onclick="window.print()">🖨️ Salvar como PDF (Print)</button>
+        </div>
+        <div class="highlight info" style="margin-top: 15px;">
+            📸 <strong>IMPORTANTE:</strong> Salve esta página como PDF (Ctrl+P → Salvar como PDF) e anexe ao envio.
+        </div>
+    </div>
+
+    <!-- GITHUB -->
+    <div class="card">
+        <h2>📤 Passo 3: Salvar em pasta local</h2>
+        <p>Após finalizar a atividade, salve os arquivos</strong>:</p>
+
+        <div class="step">
+            <span class="step-number">📁</span> Certifique-se de que a classe <strong>TestesRapidos.java</strong> está completa
+        </div>
+        <div class="step">
+            <span class="step-number">📁</span> Salve o projeto <strong>Tema06Vetores
+        </div>
+        <div class="step">
+            <span class="step-number">📁</span> Estrutura esperada:
+        </div>
+
+        <div class="github-box">
+            <div>📁 <strong>java6/</strong></div>
+            <div>&nbsp;&nbsp;└── 📁 Tema06Vetores/</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 📁 src/</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 📁 tema06/</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📄 <code>TestesRapidos.java</code> ← <strong>Entregue este arquivo!</strong></div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">📁</span> <strong>Não esqueça:</strong> Guarde o PDF com o resultado da atividade (print da tela de correção)
+        </div>
+
+        <div class="highlight warning">
+            ⚠️ <strong>ATENÇÃO:</strong> Você deverá enviar o arquivo com as respostas para formulário de substituição.
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>📚 TEMA 06 - Vetores e Matrizes | Atividade Rápida</p>
+        <p>🎯 Teste seus conhecimentos e pratique cada conceito!</p>
+    </div>
+</div>
+
+<button class="btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Topo</button>
+
+<script>
+    // GABARITO OFICIAL - CORRIGIDO E TESTADO!
+    const gabarito = {
+        resp1: { resposta: "5", metodo: "Tamanho do vetor" },
+        resp2: { resposta: "10", metodo: "Primeiro elemento" },
+        resp3: { resposta: "4", metodo: "length" },
+        resp4: { resposta: "50", metodo: "Soma" },
+        resp5: { resposta: "3", metodo: "Número de linhas" },
+        resp6: { resposta: "3", metodo: "Elemento [0][2]" },
+        resp7: { resposta: "4", metodo: "Elemento [1][1]" },
+        resp8: { resposta: "18 22 25 30", metodo: "for" },
+        resp9: { resposta: "100 200 300", metodo: "for-each" },
+        resp10: { resposta: "1 2 3 4", metodo: "Matriz" }
+    };
+
+    function normalizarResposta(valor) {
+        return valor.trim().replace(/\s+/g, ' ');
+    }
+
+    function corrigirTestes() {
+        let acertos = 0;
+        let feedbackHTML = '';
+
+        const respostas = {
+            resp1: document.getElementById('resp1'),
+            resp2: document.getElementById('resp2'),
+            resp3: document.getElementById('resp3'),
+            resp4: document.getElementById('resp4'),
+            resp5: document.getElementById('resp5'),
+            resp6: document.getElementById('resp6'),
+            resp7: document.getElementById('resp7'),
+            resp8: document.getElementById('resp8'),
+            resp9: document.getElementById('resp9'),
+            resp10: document.getElementById('resp10')
+        };
+
+        let todasPreenchidas = true;
+
+        for (let [id, input] of Object.entries(respostas)) {
+            if (input.value.trim() === '') {
+                todasPreenchidas = false;
+                input.style.borderColor = '#ffc107';
+                input.style.background = '#fff3cd';
+            }
+        }
+
+        if (!todasPreenchidas) {
+            alert('⚠️ Responda todas as questões antes de finalizar!');
+            return;
+        }
+
+        for (let [id, input] of Object.entries(respostas)) {
+            const respostaUsuario = normalizarResposta(input.value);
+            const gabaritoItem = gabarito[id];
+            const isCorrect = respostaUsuario === gabaritoItem.resposta;
+
+            if (isCorrect) {
+                acertos++;
+                input.className = 'answer-input correct';
+                feedbackHTML += `<div class="feedback-item correct">✅ Q${id.replace('resp', '')} - ${gabaritoItem.metodo}: Correto!</div>`;
+            } else {
+                input.className = 'answer-input wrong';
+                feedbackHTML += `<div class="feedback-item wrong">❌ Q${id.replace('resp', '')} - ${gabaritoItem.metodo}: Esperado "${gabaritoItem.resposta}", você respondeu "${respostaUsuario}"</div>`;
+            }
+        }
+
+        // Exibir resultado
+        document.getElementById('pontuacao').textContent = `${acertos}/10`;
+        document.getElementById('feedback').innerHTML = feedbackHTML;
+        document.getElementById('resultado').classList.add('show');
+
+        // Scroll para o resultado
+        document.getElementById('resultado').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // Adicionar mensagem extra
+        if (acertos === 10) {
+            document.getElementById('feedback').innerHTML += `
+                <div class="highlight success" style="margin-top: 15px; text-align: left;">
+                    🎉 <strong>PARABÉNS! Você acertou todas!</strong> Excelente domínio de vetores e matrizes!
+                </div>
+            `;
+        } else if (acertos >= 7) {
+            document.getElementById('feedback').innerHTML += `
+                <div class="highlight tip" style="margin-top: 15px; text-align: left;">
+                    💪 <strong>Bom trabalho!</strong> Revise apenas os conceitos que errou para fixar melhor.
+                </div>
+            `;
+        } else {
+            document.getElementById('feedback').innerHTML += `
+                <div class="highlight warning" style="margin-top: 15px; text-align: left;">
+                    📚 <strong>Que tal revisar os exemplos novamente?</strong> Pratique cada conceito no NetBeans para fixar!
+                </div>
+            `;
+        }
+    }
+
+    function limparRespostas() {
+        const inputs = document.querySelectorAll('.answer-input');
+        inputs.forEach(input => {
+            input.value = '';
+            input.className = 'answer-input';
+            input.style.borderColor = '';
+            input.style.background = '';
+        });
+        document.getElementById('resultado').classList.remove('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copyCode(btn, elementId) {
+        const codeElement = document.getElementById(elementId);
+        const textToCopy = codeElement.innerText;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Copiado!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+        }).catch(() => {
+            btn.innerHTML = '❌ Erro';
+            setTimeout(() => btn.innerHTML = '📋 Copiar', 2000);
+        });
+    }
+</script>
+</body>
+</html>
